@@ -1,6 +1,6 @@
 {
   "name": "draw-better-svg",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Agent skill and plugin marketplace for planning, drawing, render-checking, and repairing editable SVG graphics.",
   "license": "MIT",

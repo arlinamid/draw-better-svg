@@ -1,7 +1,7 @@
 {
   "name": "draw-better-svg",
   "displayName": "Draw Better SVG",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Plan, draw, render-check, and repair editable SVG graphics with type-specific geometry, small library recipes, and rendered visual review.",
   "author": {
     "name": "Rózsavölgyi János",
