@@ -116,7 +116,7 @@ svg[aria-hidden]{width:18px;height:18px;fill:none;stroke:currentColor;stroke-wid
 .canvas[data-canvas-bg=transparent]{background:conic-gradient(#e6e6e6 25%,#fff 0 50%,#e6e6e6 0 75%,#fff 0) 0 0/18px 18px;color-scheme:only light}
 .canvas>*{color:var(--fg)}
 #dbs-stage{width:100%;height:100%;min-height:0;display:grid;place-items:center}
-#dbs-stage>svg{width:100%;height:100%;max-width:960px;overflow:visible}
+#dbs-stage>svg{width:100%;height:100%;max-width:960px;overflow:hidden}
 .canvas[data-tool=comment] #dbs-stage>svg,.canvas[data-tool=pen] #dbs-stage>svg,.canvas[data-tool=arrow] #dbs-stage>svg{cursor:crosshair;touch-action:none}
 #dbs-pins>g{cursor:pointer}
 .stage-mode{position:absolute;inset-block-start:12px;inset-inline-start:12px}

@@ -172,7 +172,11 @@ each crossing.
    Chromium; JavaScript does not run there; SMIL ran too. The host page's CSS cannot
    reach into an `<img>`. Test the real embedding and other browsers before promising
    behavior.
-7. **One clock.** Give parts one shared duration with offsets, or explicit delays from
+7. **Clip scrolling scenes.** Looping backgrounds keep a second tile outside the
+   viewBox. A standalone file clips it, but inline SVG with `overflow: visible`
+   shows it spilling over the page. Wrap the scene in a group clipped by a rect the
+   size of the viewBox.
+8. **One clock.** Give parts one shared duration with offsets, or explicit delays from
    one timeline table, so `?t=<ms>` maps directly to the choreography.
 
 ## QA workflow and acceptance

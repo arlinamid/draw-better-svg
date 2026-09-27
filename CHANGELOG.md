@@ -23,6 +23,9 @@ All notable changes to this project are documented here. The format follows
   animations. The pass now uses `visiblePixels` (0.75 CSS px blur, ±1 px, 24 levels); a 40 ms pose
   change still registers. The loop-seam guidance now names the least common multiple of periods
   and warns against positive delays.
+- **The review stage clips the drawing at its viewBox.** It used `overflow: visible`, so a looping
+  background's off-canvas tiles spilled over the Notes panel. `motion.md` adds the matching rule
+  for the artwork: clip scrolling scenes to the viewBox so inline embeds stay inside their frame.
 - **Every round carries the checks.** `feedback.json` has a `checks` field, re-run on the file when
   the round is saved, and the summary ends with the open findings; an offline file includes the
   checks the page showed.
