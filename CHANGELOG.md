@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-09-27
+
 ### Changed
 
 - **The review page is one screen, usage first.** The drawing fills a canvas with a background
@@ -103,6 +105,7 @@ First packaged release.
 - The skill moved from the repository root into the plugin layout; its content is unchanged
   apart from a note to run the audit with `python` where `python3` is missing.
 
-[Unreleased]: https://github.com/arlinamid/draw-better-svg/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/arlinamid/draw-better-svg/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/arlinamid/draw-better-svg/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/arlinamid/draw-better-svg/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/arlinamid/draw-better-svg/releases/tag/v1.0.0
