@@ -24,8 +24,22 @@ writeFileSync(skill, readFileSync(skill, 'utf8').replace(/^(\s+version:\s*)"?[^"
 const log = join(ROOT, 'CHANGELOG.md');
 const today = new Date().toISOString().slice(0, 10);
 const text = readFileSync(log, 'utf8');
-if (!text.includes(`## [${version}]`)) {
-  writeFileSync(log, text.replace(/^## \[Unreleased\][ \t]*$/m, `## [Unreleased]\n\n## [${version}] - ${today}`));
+let next = text;
+if (!next.includes(`## [${version}]`)) {
+  next = next.replace(/^## \[Unreleased\][ \t]*$/m, `## [Unreleased]\n\n## [${version}] - ${today}`);
 }
+// Keep the compare links at the bottom pointing at the newest tag.
+const repo = 'https://github.com/arlinamid/draw-better-svg';
+next = next.replace(/^\[Unreleased\]: .*$/m, `[Unreleased]: ${repo}/compare/v${version}...HEAD`);
+if (!new RegExp(`^\\[${version.replace(/\./g, '\\.')}\\]: `, 'm').test(next)) {
+  const prev = [...next.matchAll(/^## \[(\d+\.\d+\.\d+[^\]]*)\]/gm)].map((m) => m[1]).find((v) => v !== version);
+  const link = prev ? `${repo}/compare/v${prev}...v${version}` : `${repo}/releases/tag/v${version}`;
+  next = next.replace(/^(\[Unreleased\]: .*)$/m, `$1\n[${version}]: ${link}`);
+}
+writeFileSync(log, next);
+
+// README version badge.
+const readme = join(ROOT, 'README.md');
+writeFileSync(readme, readFileSync(readme, 'utf8').replace(/badge\/version-[^-]+-blue/, `badge/version-${version}-blue`));
 
 console.log(`synced ${version}`);

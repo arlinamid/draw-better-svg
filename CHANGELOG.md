@@ -74,5 +74,6 @@ First packaged release.
 - The skill moved from the repository root into the plugin layout; its content is unchanged
   apart from a note to run the audit with `python` where `python3` is missing.
 
-[Unreleased]: https://github.com/arlinamid/draw-better-svg/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/arlinamid/draw-better-svg/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/arlinamid/draw-better-svg/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/arlinamid/draw-better-svg/releases/tag/v1.0.0
