@@ -14,6 +14,15 @@ All notable changes to this project are documented here. The format follows
   the motion or the construction, with a marker for every timed note; the Notes panel holds the
   notes and Send/Approve. Checks and target sizes open in dialogs instead of filling the page.
   Built on `color-scheme`/`light-dark()`, the Popover API, and `<dialog closedby>` with fallbacks.
+- **Character motion** in `motion.md`: the classic animation principles mapped to SVG
+  techniques (IK at sampled poses, eased samples, follow-through, secondary action, arcs,
+  appeal), and the rule that a CSS `transform` animation replaces the element's `transform`
+  attribute. Found while animating a boy on a bicycle end to end with the skill.
+- **`capture_frames.mjs` tolerates layer rasterization.** Transform-animated groups render softer
+  and up to a pixel off in Chromium, which failed the pixel-exact final-frame check on correct
+  animations. The pass now uses `visiblePixels` (0.75 CSS px blur, ±1 px, 24 levels); a 40 ms pose
+  change still registers. The loop-seam guidance now names the least common multiple of periods
+  and warns against positive delays.
 - **Every round carries the checks.** `feedback.json` has a `checks` field, re-run on the file when
   the round is saved, and the summary ends with the open findings; an offline file includes the
   checks the page showed.

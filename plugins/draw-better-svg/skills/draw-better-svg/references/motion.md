@@ -7,6 +7,7 @@
 - Motion-ready structure
 - Choreography
 - Pattern library
+- Character motion
 - Implementation rules (measured)
 - QA workflow and acceptance
 
@@ -111,6 +112,32 @@ Refit it first (see [review-and-repair.md](review-and-repair.md#reference-fits))
 | Orbit | Loading | A satellite rotates, 1.2–2 s, linear |
 | Hover lift / wink / sheen / redraw | Interaction | 150–300 ms, ease-out, exact return |
 
+## Character motion
+
+A logo moves as a mark; a character moves as a body. Apply the classic animation
+principles (Thomas and Johnston, *The Illusion of Life*) through structure, not
+decoration. Each maps to a concrete SVG technique:
+
+| Principle | In an SVG character |
+| --- | --- |
+| Solid drawing | Joints stay attached in every frame: solve limbs by two-bone IK at sampled poses (24 per cycle is plenty) and measure the drift between samples |
+| Timing, slow in/out | Sample eased curves into keyframes (`(1 − cos 2πu) / 2`) or put a literal `cubic-bezier()` on the animation; keep every period a divisor of one loop |
+| Follow-through, overlapping action | Parts arrive at different times: the head lags the torso by 10–20 % of a cycle and counter-rotates; hair and clothing lag further |
+| Secondary action | Something the main action causes: wind in hair, a shirt tail, a bag strap. Small amplitude (≤ 10°), faster period than the main action |
+| Squash and stretch | Body masses compress on the power beat (≤ 5 % for realistic, up to 20 % for cartoon); never deform what must stay rigid (a bicycle, a helmet) |
+| Anticipation | A counter-move before a big action (crouch before a jump); a steady loop such as pedalling needs none |
+| Arcs | Pivot limbs and heads about joints so points travel on arcs; avoid straight-line translation of organic parts |
+| Staging | The silhouette reads at the smallest size: limbs separated from the body where the action happens |
+| Exaggeration, appeal | Push proportions (a child's larger head, a catch-light in the eye) more than the motion itself |
+| Straight ahead vs pose to pose | Pose to pose: define key poses in data, let interpolation fill the rest |
+
+Structure for this: one group per joint with the pivot at its local origin
+(`translate(joint)` on an outer group, the animated `rotate` on an inner one).
+**A CSS `transform` animation replaces the element's `transform` attribute**, so an
+element that is both placed and animated loses its placement. Put the rest pose
+in the inner group's attribute, equal to keyframe 0%, so the static file, reduced
+motion, and the first frame agree.
+
 **Draw-on across self-intersections** (∞ marks, scripts). A wide reveal stroke on a
 self-crossing centerline shows the other branch early. pixel2motion reports a fix:
 cut the fill into pieces between crossing passes, give each its own mask spine,
@@ -164,8 +191,14 @@ node scripts/capture_frames.mjs review/logo-motion.html review/motion \
   overshoot stays within the personality, nothing clips at the viewBox mid-flight.
 - Compare probe values with the designed curve. Values on a straight line where you
   designed an ease mean the easing was dropped.
-- `finalFrame.pass` and `reducedMotion.pass` must both be true (0 changed pixels
-  against `?bare=1`, the SVG without motion).
-- For loops, capture just before and after the seam; the frames must match.
+- `finalFrame.pass` and `reducedMotion.pass` must both be true: no *visible* pixel
+  differs from `?bare=1`, the SVG without motion. Chromium rasterizes
+  transform-animated groups on their own layers, softer and up to a pixel off, so
+  `changedPixels` is rarely 0 there; `visiblePixels` blurs by 0.75 CSS px and allows
+  one pixel of offset (a 40 ms pose change still shows tens of thousands of pixels).
+- For loops, capture the first frame and the frame at the loop length (the least
+  common multiple of all periods); they must match. A layer whose period does not
+  divide the loop, or a positive `animation-delay`, breaks the seam — offset phases
+  with reversed keyframes or a negative delay instead.
 - Report the renderer (Chromium only), the frames checked, and what was not tested:
   other engines, `<img>` embedding, performance on low-end devices.
