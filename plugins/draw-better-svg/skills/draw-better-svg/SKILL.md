@@ -1,12 +1,13 @@
 ---
 name: draw-better-svg
 description: >-
-  Plan, create, inspect, and repair well-drawn editable SVG graphics with
-  type-specific geometry, library selection, and rendered visual review.
-  Use for SVG illustrations, icons, logos, organic line art, diagrams, charts,
-  patterns, maps, vector assets, SVG quality problems, and SVG prompting or
-  scripting guidance. Distinguish real vectors from raster images in SVG
-  wrappers and static assets from interactive web SVG.
+  Plan, create, inspect, animate, and repair well-drawn editable SVG graphics
+  with type-specific geometry, library selection, and rendered visual review.
+  Use for SVG illustrations, icons, logos, logo animation, organic line art,
+  diagrams, charts, patterns, maps, vector assets, filters and textures,
+  tracing a raster reference into clean vectors, SVG quality problems, and SVG
+  prompting or scripting guidance. Distinguish real vectors from raster images
+  in SVG wrappers and static assets from interactive web SVG.
 license: MIT
 metadata:
   version: "1.0.0"
@@ -22,18 +23,24 @@ correctness, and visual quality as separate requirements.
 
 1. Read [taxonomy.md](references/taxonomy.md) to classify the subject, construction,
    and delivery context. SVG is one format; the categories are practical workflows.
-2. For an existing file, run `python3 scripts/audit_svg.py INPUT.svg --json` from
-   this skill directory, then render it. Report structural facts separately from
-   visual judgments. Do not infer the subject from element counts alone.
+2. For an existing file, run `python3 scripts/audit_svg.py INPUT.svg --json` and
+   `python3 scripts/path_audit.py INPUT.svg` from this skill directory, then render
+   it. Report structural and geometric facts separately from visual judgments. Do
+   not infer the subject from element counts alone.
 3. Read [scripting-guide.md](references/scripting-guide.md) for implementation,
    [prompting-guide.md](references/prompting-guide.md) for briefs and revision prompts,
-   and [review-and-repair.md](references/review-and-repair.md) for acceptance checks.
+   and [review-and-repair.md](references/review-and-repair.md) for acceptance checks
+   and reference fits (tracing or reconstructing a raster source).
+   Read [effects.md](references/effects.md) before adding filters, textures,
+   gradients, or theming, and [motion.md](references/motion.md) for logo or other
+   SVG animation.
 4. Read [ecosystem.md](references/ecosystem.md) only when choosing a library,
    comparing existing skills, or checking primary sources.
 
 ## Establish a brief
 
-Extract the subject, intended audience, target sizes, background, visual style,
+Extract the subject, intended audience, target sizes, every background the asset
+will sit on (light and dark for a transparent logo or icon), visual style,
 exact text/data, required editability, and output environment. Use
 `assets/brief-template.json` as a planning example, not a fixed design prescription.
 State useful assumptions and proceed; ask only when the answer changes the
@@ -54,9 +61,18 @@ coordinates. Preserve the user's references and existing artwork constraints.
    overlaps, and perspective. Prefer computed geometry to guessed path strings.
 4. **Style:** apply a limited palette, consistent line hierarchy, and a defined
    light direction. Add texture only when it serves the requested style.
-5. **Review:** render at the intended display sizes; inspect the image. Fix the
-   highest-impact visible defect in geometry or composition before adding detail.
-6. **Delivery:** keep an editable source, generate an optimized copy only when
+5. **Review:** render at the intended display sizes; inspect the image. Run the
+   path audit on hand-built or traced contours. Fix the highest-impact visible
+   defect in geometry or composition before adding detail.
+6. **Review with the user:** before handing over finished artwork, start
+   `review_server.mjs` in the background, give the user its URL, and block on
+   `review_server.mjs --wait`. The page shows the construction reveal, the motion
+   timeline, target sizes on light and dark, and the checks; the user pins
+   comments, draws marks, and presses Send or Approve. Each comment names the
+   element, its coordinates, and on animations the frame time. Apply the round,
+   let the page reload, and wait again until the status is `approved`. See
+   [review-and-repair.md](references/review-and-repair.md#review-with-the-user).
+7. **Delivery:** keep an editable source, generate an optimized copy only when
    useful, and rerender the copy. Report what was actually checked.
 
 Keep visual changes local during repair. Translate criticism into a visible
@@ -74,6 +90,9 @@ verified merely because XML parsing or an automated check passed.
 | Pressure ink | Perfect Freehand with explicit pressure points |
 | Quantitative chart | D3 scales/shapes or an established chart tool |
 | Branching diagram | ELK layout, then SVG rendering |
+| Shadows, textures, grading, glass | Native filters from [effects.md](references/effects.md), clipped to the shape |
+| Fit to a raster reference | Complexity ladder + `compare_reference.mjs` overlay + `path_audit.py` |
+| Logo animation | CSS keyframes per [motion.md](references/motion.md); `capture_frames.mjs` for evidence |
 | Preview | sharp/librsvg or resvg; use a browser for browser-specific behavior |
 | Delivery optimization | SVGO after visual approval |
 
@@ -111,14 +130,27 @@ missing (common on Windows), run the same commands with `python`.
 
 ```bash
 python3 scripts/audit_svg.py drawing.svg --json
-node scripts/generate_examples.mjs ./review/examples
+python3 scripts/path_audit.py drawing.svg --svg-out ./review/drawing-handles.svg
 node scripts/render_review.mjs drawing.svg ./review/drawing 24,48,256
+node scripts/review_server.mjs drawing.svg --open        # background; prints the URL
+node scripts/review_server.mjs --wait drawing.svg        # blocks until Send/Approve
+node scripts/preview_html.mjs drawing.svg ./review/drawing-preview.html
+node scripts/compare_reference.mjs drawing.svg source.png ./review/fit-01
+node scripts/preview_html.mjs logo.svg ./review/logo-motion.html --mode motion --css motion.css
+node scripts/capture_frames.mjs ./review/logo-motion.html ./review/motion
 node scripts/optimize_svg.mjs drawing.svg drawing.min.svg
+node scripts/generate_examples.mjs ./review/examples
 ```
+
+`preview_html.mjs` and `review_server.mjs` need no dependencies (the server
+adds a PNG and animation frames to each round when sharp and playwright-core are
+installed); `compare_reference.mjs` and the
+renderers need sharp; `capture_frames.mjs` needs playwright-core and an installed
+Chrome or Edge (or `CHROME_BIN`).
 
 Select meaningful raster widths for the artwork. `render_review.mjs` creates
 transparent, light, and dark static previews. Fixed backgrounds inside the SVG
-remain fixed. Neither it nor the audit verifies animation, full SVG conformance,
+remain fixed. Neither it nor the audits verify animation, full SVG conformance,
 text collisions, appearance, accessibility behavior, or safety of untrusted files.
 Use the web audit profile only for intentional web/hybrid features; review its
 warnings. Treat optimization as optional and preserve the editable master.

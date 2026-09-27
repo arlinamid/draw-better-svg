@@ -6,6 +6,48 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- **Logo and SVG motion** (`references/motion.md`): brief and personality presets, motion-ready
+  structure, choreography, pattern library, and implementation rules measured in Chromium —
+  literal keyframe easings, motion-only properties kept out of the rest state, a draw-on dash
+  setup that leaves no ink at t = 0, reduced motion equal to the static logo.
+- **Interactive review** (`review_server.mjs`): a local page (127.0.0.1, tokened URL) where
+  the user pins comments, draws marks (pen, arrow, box, ellipse, text; undo/redo), writes a
+  note, and presses Send or Approve. On an animated stage the page has a motion timeline and
+  every comment and mark records its frame time. Each round lands in `round-NN/` with
+  `feedback.json` (element label, selector, bbox, coordinates, times, summary), an annotated
+  SVG and PNG, and the commented animation frames with their pins. `--wait` blocks until the
+  next round, so any agent with a shell can loop; the open page reloads when the SVG changes.
+- **`preview_html.mjs`**: a dependency-free, single-file preview to show the user before
+  delivery — construction reveal (strokes, then fills), target sizes on transparent, light,
+  and dark backgrounds, structural/geometry/contrast checks, and the motion stage. `--mode motion`
+  builds a motion page with `?t=`, `?static=1`, and `?bare=1` QA hooks and lints the motion CSS.
+- **`capture_frames.mjs`**: deterministic frames, a film strip, style probes, and pixel-exact
+  final-frame and reduced-motion checks against the SVG without motion. Uses playwright-core with
+  an installed Chrome or Edge.
+- **`path_audit.py`**: contour audit for every path command — near-kinks, pixel staircases,
+  faceted curves, tiny segments, long handles, malformed data — with a handle overlay SVG.
+- **`compare_reference.mjs`**: raster reference overlay with IoU, centroid offset, and size ratio
+  for traces and reconstructions; "Reference fits" in `review-and-repair.md` adds a complexity
+  ladder and an iteration budget.
+- **Contrast check** (`scripts/lib/contrast.mjs`): painted colors against light and dark
+  backgrounds, honoring `prefers-color-scheme: dark` rules in the SVG; the preview shows the
+  count beside each background row, and the dark row renders with `color-scheme: dark`.
+- **`references/effects.md`**: shadows, bevel, textures, grading, materials, atmosphere, glass,
+  portable gradients, a renderer portability table, and dark-background fixes.
+- **Effects lab** (`tools/effects-lab/`) and `docs/effects-evaluation.md`: 60 recipes rendered in
+  Chromium, librsvg, and resvg, plus 7 browser checks.
+- Python and Node tests in `tools/tests/`, run by `npm run check`; a CI motion smoke test.
+- `THIRD_PARTY_NOTICES.md` inside the skill.
+
+### Changed
+
+- The pressure-ink example and recipe draw quadratic curves through outline midpoints instead of
+  straight segments, which the new path audit reported as faceted.
+- `ecosystem.md` records what was adopted from svg-creator-skill, pixel2motion, and
+  svg-hand-drawn-skill and what failed in testing.
+
 ## [1.0.0] - 2026-09-27
 
 First packaged release.

@@ -14,7 +14,7 @@
 
 Use Node for the library recipes and Python 3 for the dependency-free structural
 audit. The bundled lockfile records exact dependency resolution. The example
-suite was exercised on Node 24.19.0; use a supported Node version compatible with
+suite was exercised on Node 24.20.0; use a supported Node version compatible with
 the dependencies, rather than assuming every older Node version works.
 
 From this skill's directory:
@@ -23,9 +23,22 @@ From this skill's directory:
 npm ci --prefix scripts
 node scripts/generate_examples.mjs ./review/examples
 python3 scripts/audit_svg.py ./review/examples/03-editorial-scene.svg --json
+python3 scripts/path_audit.py ./review/examples/03-editorial-scene.svg --svg-out ./review/scene-handles.svg
 node scripts/render_review.mjs ./review/examples/03-editorial-scene.svg ./review/scene 180,360,720
+node scripts/preview_html.mjs ./review/examples/03-editorial-scene.svg ./review/scene-preview.html
 node scripts/optimize_svg.mjs ./review/examples/03-editorial-scene.svg ./review/scene.min.svg
 ```
+
+| Script | Needs | Job |
+| --- | --- | --- |
+| `audit_svg.py` | Python 3 | Structure: root, viewBox, IDs, references, active content |
+| `path_audit.py` | Python 3 | Contours: near-kinks, staircases, facets, tiny segments, long handles; handle overlay |
+| `render_review.mjs` | sharp | PNG previews at chosen widths on transparent, light, dark |
+| `preview_html.mjs` | none | Single-file review page: reveal, sizes, checks incl. contrast, motion stage |
+| `compare_reference.mjs` | sharp | Raster reference overlay, IoU, centroid offset, size ratio |
+| `capture_frames.mjs` | playwright-core, Chrome/Edge | Motion frames, strip, final-frame and reduced-motion checks, style probes |
+| `optimize_svg.mjs` | svgo | Conservative delivery copy |
+| `generate_examples.mjs` | all libraries | Example suite for the recipes below |
 
 The full suite has optional packages for demonstrating different workflows. For a
 separate project install only the packages needed, pin them with `--save-exact`,
@@ -41,6 +54,7 @@ and retain the generated lockfile. Do not commit `node_modules`.
 | `d3-scale` / `d3-shape` | 4.0.2 / 3.2.0 | Data-to-coordinate mapping |
 | `elkjs` | 0.12.0 | Graph layout |
 | `sharp` | 0.35.4 | Static rendering through librsvg |
+| `playwright-core` | 1.63.0 | Drives an installed Chrome/Edge for motion capture |
 | `svgo` | 4.1.0 | Delivery cleanup |
 
 These are tested versions, not a claim that they are always the latest. Check
@@ -214,7 +228,10 @@ const outline = getStroke(points, {
   size: 10, thinning: .7, smoothing: .5,
   simulatePressure: false, last: true
 });
-const d = outline.map(([x,y],i) => `${i ? 'L' : 'M'}${x} ${y}`).join(' ') + ' Z';
+// Quadratic curves through midpoints; `L` segments would make the ink faceted.
+const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+const d = `M${outline[0].join(' ')} ` + outline.map((p, i) =>
+  `Q${p.join(' ')} ${mid(p, outline[(i + 1) % outline.length]).join(' ')}`).join(' ') + ' Z';
 ```
 
 The returned shape is a filled outline, not a stroke-width modifier on the

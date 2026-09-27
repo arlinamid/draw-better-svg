@@ -141,7 +141,13 @@ for (let i=0;i<=60;i++) {
   samples.push([42+276*t,120-62*Math.sin(t*Math.PI*2),.2+.65*Math.sin(t*Math.PI)]);
 }
 const outline = getStroke(samples,{size:16,thinning:.75,smoothing:.55,streamline:.4,simulatePressure:false,last:true});
-const inkPath=outline.map((p,i)=>`${i?'L':'M'}${fmt(p[0])} ${fmt(p[1])}`).join(' ')+' Z';
+// Quadratic curves through the midpoints between outline points (the approach the
+// perfect-freehand README documents); straight L segments make the ink faceted.
+const mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+const inkPath=`M${fmt(outline[0][0])} ${fmt(outline[0][1])} `+outline.map((p,i)=>{
+  const m=mid(p,outline[(i+1)%outline.length]);
+  return `Q${fmt(p[0])} ${fmt(p[1])} ${fmt(m[0])} ${fmt(m[1])}`;
+}).join(' ')+' Z';
 await save('07-pressure-ink','Variable-width ink','Perfect Freehand · pressure',wrap('ink',360,240,'Pressure stroke study','A flowing curve whose ink width follows explicit pressure values.',`<path d="${inkPath}" fill="${ink}"/>`));
 
 // 8. Pattern repetition is declarative; spacing and phase live in the tile.

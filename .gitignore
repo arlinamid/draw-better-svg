@@ -4,3 +4,4 @@ __pycache__/
 # Review renders and generated examples (see SKILL.md); never ship them in the plugin.
 review/
 *.tgz
+.svg-review/

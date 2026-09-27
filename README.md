@@ -4,8 +4,8 @@
 [![Install](https://img.shields.io/badge/npx-skills%20add-black?style=flat-square)](https://github.com/vercel-labs/skills)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square)](LICENSE)
 
-> An agent skill for planning, drawing, render-checking, and repairing editable SVG graphics:
-> icons, logos, illustrations, diagrams, charts, patterns, and maps.
+> An agent skill for planning, drawing, render-checking, animating, and repairing editable SVG
+> graphics: icons, logos, illustrations, diagrams, charts, patterns, maps, and logo motion.
 
 ```bash
 npx skills add arlinamid/draw-better-svg
@@ -14,7 +14,12 @@ npx skills add arlinamid/draw-better-svg
 The skill treats valid XML, correct geometry, and visual quality as three separate
 requirements. It classifies the task, draws in passes (composition → structure →
 geometry → style), renders the result at the sizes it will be shown at, and fixes
-the most visible defect before adding detail.
+the most visible defect before adding detail. Before delivery it builds a
+review page for the user: a construction reveal, the motion timeline, the artwork
+at its target sizes on transparent, light, and dark backgrounds, and the structural,
+geometry, and contrast checks. The user pins comments and draws on it, and Send
+hands the round to the agent through a small local server — element names,
+coordinates, animation frame times, and annotated images included.
 
 ---
 
@@ -85,7 +90,8 @@ Use `~/.codex/skills/`, `~/.cursor/skills/`, or your agent's skill folder instea
 
 ```
 plugins/draw-better-svg/skills/draw-better-svg/
-├── SKILL.md                    workflow: route, brief, draw in passes, review, deliver
+├── SKILL.md                    workflow: route, brief, draw in passes, review, preview, deliver
+├── THIRD_PARTY_NOTICES.md      licenses of adapted reference material
 ├── agents/openai.yaml          Codex / ChatGPT skill metadata
 ├── assets/
 │   ├── brief-template.json     a worked planning brief
@@ -94,21 +100,32 @@ plugins/draw-better-svg/skills/draw-better-svg/
 │   ├── taxonomy.md             subject × construction × delivery classification
 │   ├── scripting-guide.md      library recipes (SVG.js, Paper.js, Rough.js, D3, ELK …)
 │   ├── prompting-guide.md      briefs and revision prompts
-│   ├── review-and-repair.md    acceptance checks and repair loop
+│   ├── review-and-repair.md    acceptance checks, reference fits, preview before delivery
+│   ├── effects.md              tested filters, textures, grading, glass, theming, contrast
+│   ├── motion.md               logo animation: brief, patterns, measured rules, QA
 │   └── ecosystem.md            related skills, libraries, primary sources
 └── scripts/
-    ├── audit_svg.py            structural audit, standard library only
+    ├── audit_svg.py            structure audit, standard library only
+    ├── path_audit.py           contour audit: kinks, staircases, facets, tiny segments
+    ├── review_server.mjs       interactive review loop: page, Send/Approve, --wait for the agent
+    ├── preview_html.mjs        the same review page as a static file / motion page
     ├── render_review.mjs       PNG previews on transparent, light and dark backgrounds
+    ├── compare_reference.mjs   raster reference overlay with IoU
+    ├── capture_frames.mjs      deterministic motion frames and final-frame checks
     ├── optimize_svg.mjs        conservative SVGO delivery copy
-    └── generate_examples.mjs   example suite that uses every bundled library
+    ├── generate_examples.mjs   example suite that uses every bundled library
+    └── lib/                    page builder, review UI, browser launcher, contrast check
 ```
 
-The Python audit needs no packages. The Node tools are optional; install their
-dependencies only when you use them:
+The Python audits and the preview page need no packages. The other Node tools
+are optional; install their dependencies only when you use them. Motion capture
+drives an installed Chrome or Edge through playwright-core (or `CHROME_BIN`).
 
 ```bash
 npm ci --prefix scripts          # from the skill directory
 python scripts/audit_svg.py drawing.svg --json
+python scripts/path_audit.py drawing.svg --svg-out ./review/handles.svg
+node scripts/preview_html.mjs drawing.svg ./review/preview.html
 node scripts/render_review.mjs drawing.svg ./review/drawing 24,48,256
 ```
 
@@ -125,13 +142,24 @@ node scripts/render_review.mjs drawing.svg ./review/drawing 24,48,256
 | `plugins/draw-better-svg/.codex-plugin/plugin.json` | Codex plugin manifest |
 | `.cursor-plugin/marketplace.json` | Cursor marketplace |
 | `plugins/draw-better-svg/.cursor-plugin/plugin.json` | Cursor plugin manifest |
-| `tools/` | validation and version sync |
+| `tools/` | validation, version sync, tests, effects lab |
+| `docs/effects-evaluation.md` | how every adopted or rejected effect was tested |
 
 ## Development
 
 ```bash
 npm run validate      # manifests, versions, SKILL.md frontmatter, links — no dependencies
-npm run check         # + script syntax, audit smoke test, claude plugin validate --strict, npx skills --list
+npm run check         # + script syntax, audit smoke test, Python and Node tests,
+                      #   claude plugin validate --strict, npx skills --list
+```
+
+The effects lab renders every effect recipe in Chromium, librsvg, and resvg and
+compares them; its findings are in [docs/effects-evaluation.md](docs/effects-evaluation.md):
+
+```bash
+npm ci --prefix plugins/draw-better-svg/skills/draw-better-svg/scripts
+npm install --prefix tools/effects-lab
+node tools/effects-lab/run.mjs && node tools/effects-lab/anim-checks.mjs
 ```
 
 `package.json` holds the version. Release with `npm version patch|minor|major`:
@@ -141,5 +169,9 @@ npm commits and tags `vX.Y.Z`. Clients update when the `plugin.json` version cha
 
 ## License
 
-[MIT](LICENSE). Libraries referenced by the scripts keep their own licenses; see
+[MIT](LICENSE). `effects.md` and `motion.md` adapt material from
+[svg-creator-skill](https://github.com/upbrew-tech/svg-creator-skill) (Apache-2.0) and
+[pixel2motion](https://github.com/nolangz/pixel2motion) (MIT); see
+[THIRD_PARTY_NOTICES.md](plugins/draw-better-svg/skills/draw-better-svg/THIRD_PARTY_NOTICES.md).
+Libraries referenced by the scripts keep their own licenses; see
 [ecosystem.md](plugins/draw-better-svg/skills/draw-better-svg/references/ecosystem.md).

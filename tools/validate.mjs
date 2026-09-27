@@ -2,7 +2,8 @@
 // Release gate for the draw-better-svg repository.
 //
 //   node tools/validate.mjs          manifests, versions, SKILL.md, links (no dependencies)
-//   node tools/validate.mjs --deep   also script syntax, the audit on a sample SVG,
+//   node tools/validate.mjs --deep   also script syntax, the audit on a sample SVG, the
+//                                    Python and Node test suites in tools/tests,
 //                                    `claude plugin validate --strict` and `npx skills --list`
 //                                    when those commands are available
 //
@@ -221,7 +222,7 @@ function walk(dir, out = []) {
   }
   return out;
 }
-const markdown = [...walk(SKILL), join(ROOT, 'README.md'), join(ROOT, 'CHANGELOG.md')]
+const markdown = [...walk(SKILL), join(ROOT, 'README.md'), join(ROOT, 'CHANGELOG.md'), ...walk(join(ROOT, 'docs'))]
   .filter((p) => p.endsWith('.md') && existsSync(p));
 for (const file of markdown) {
   const text = readFileSync(file, 'utf8').replace(/```[\s\S]*?```/g, '');
@@ -237,6 +238,8 @@ for (const file of markdown) {
 for (const f of ['README.md', 'LICENSE', 'CHANGELOG.md']) {
   if (!existsSync(join(ROOT, f))) fail(f, 'missing');
 }
+// The skill travels alone through `npx skills`, so its notices must live inside it.
+if (!existsSync(join(SKILL, 'THIRD_PARTY_NOTICES.md'))) fail(rel(SKILL), 'THIRD_PARTY_NOTICES.md is missing');
 if (existsSync(join(ROOT, 'CHANGELOG.md'))) {
   const log = readFileSync(join(ROOT, 'CHANGELOG.md'), 'utf8');
   if (!new RegExp(`^## \\[${VERSION.replace(/\./g, '\\.')}\\]`, 'm').test(log)) {
@@ -274,8 +277,12 @@ function run(label, cmd, args, opts = {}) {
 
 if (DEEP) {
   const scripts = join(SKILL, 'scripts');
-  for (const f of readdirSync(scripts).filter((f) => f.endsWith('.mjs'))) {
-    run(`node --check ${f}`, process.execPath, ['--check', join(scripts, f)], { shell: false });
+  const modules = [
+    ...readdirSync(scripts).filter((f) => f.endsWith('.mjs')).map((f) => join(scripts, f)),
+    ...readdirSync(join(scripts, 'lib')).filter((f) => /\.m?js$/.test(f)).map((f) => join(scripts, 'lib', f)),
+  ];
+  for (const f of modules) {
+    run(`node --check ${rel(f)}`, process.execPath, ['--check', f], { shell: false });
   }
   const py = spawnSync('python3', ['--version']).status === 0 ? 'python3' : 'python';
   const audit = join(scripts, 'audit_svg.py');
@@ -294,6 +301,9 @@ if (DEEP) {
   } finally {
     rmSync(tmp, { recursive: true, force: true });
   }
+
+  run('python unit tests', py, ['-m', 'unittest', 'discover', '-s', join(ROOT, 'tools', 'tests')], { shell: false });
+  run('node tests', process.execPath, ['--test', 'tools/tests/*.test.mjs'], { shell: false });
 
   run('claude plugin validate (marketplace)', 'claude', ['plugin', 'validate', '.', '--strict']);
   run('claude plugin validate (plugin)', 'claude', ['plugin', 'validate', `plugins/${NAME}`, '--strict']);

@@ -40,8 +40,8 @@ while still requiring exact connectivity.
 | Pattern / ornament | Rhythm, phase, seamless boundaries | Repeated symbols or pattern tiles | Tile seams or accidental density changes | Multi-tile repeat and target scale |
 | Isometric / technical object | Consistent projection, aligned attachments | Compute 3D-to-2D coordinates and surface order | Mixed perspective, disconnected parts | Whole object and junctions |
 | Lettering / wordmark | Correct glyphs, spacing, stable font delivery | Licensed font shaping; optional outlined copy | Missing accents, generic tracking, substitution | Small use and spacing review |
-| Motion / interaction | Clear static design with purposeful state changes | Stable groups; browser-tested CSS/SMIL/JS | Hidden start, broken transforms, poor reduced motion | Start/middle/end and actual host |
-| Trace / hybrid | Honest fidelity target and manageable paths | Trace broad regions, simplify, redraw key edges | Noisy polygons or bitmap wrapped in svg | Reference overlay and intended use |
+| Motion / interaction | Clear static design with purposeful state changes | Stable groups; browser-tested CSS/SMIL/JS ([motion.md](motion.md)) | Hidden start, broken transforms, poor reduced motion | Start/middle/end and actual host |
+| Trace / hybrid | Honest fidelity target and manageable paths | Complexity ladder; refit traces ([reference fits](review-and-repair.md#reference-fits)) | Noisy polygons or bitmap wrapped in svg | Reference overlay and intended use |
 
 These review sizes are examples, not universal thresholds. Do not silently alter
 requested dimensions. A large illustration may need a simpler small variant.

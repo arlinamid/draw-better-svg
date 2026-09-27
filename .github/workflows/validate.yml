@@ -23,6 +23,25 @@ jobs:
       # --deep skips the claude CLI when it is not installed; npx skills runs.
       - run: node tools/validate.mjs --deep
 
+  motion-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci --prefix plugins/draw-better-svg/skills/draw-better-svg/scripts
+      # playwright-core finds the runner's preinstalled Google Chrome through the "chrome" channel.
+      - name: Build and capture the fixture logo animation
+        run: |
+          S=plugins/draw-better-svg/skills/draw-better-svg/scripts
+          node $S/preview_html.mjs tools/tests/fixtures/logo.svg review/logo-motion.html --mode motion --css tools/tests/fixtures/motion.css
+          node $S/capture_frames.mjs review/logo-motion.html review/motion
+          node $S/preview_html.mjs tools/tests/fixtures/logo.svg review/logo-preview.html --css tools/tests/fixtures/motion.css
+
   tag-matches-version:
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest

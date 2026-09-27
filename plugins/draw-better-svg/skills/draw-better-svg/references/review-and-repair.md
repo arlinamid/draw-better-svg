@@ -6,6 +6,8 @@
 - Visual rubric
 - Common defects
 - Meaningful automated checks
+- Reference fits
+- Review with the user
 - Verification record
 
 ## Gates and evidence
@@ -61,6 +63,8 @@ dimensions N/A instead of forcing them into a misleading total score.
 | Diagram arrows cross labels | Geometry generated before text sizing | Measure nodes, relayout, reroute and inspect |
 | Text differs across computers | Missing or substituted font | Bundle/outline if permitted, or design for a verified fallback |
 | Colors change in a web page | CSS inheritance, collision, or currentColor assumptions | Inspect actual embedding; scope styling and IDs |
+| Wordmark vanishes on a dark page | Transparent logo drawn for one background only | Preview on light and dark; ship a variant per background or a tested dark rule ([effects.md](effects.md#contrast-and-dark-backgrounds)) |
+| Animation ends slightly off the logo | Motion-only property (clip, dash) kept at rest by `fill-mode: both` | Keep it in keyframes with `backwards` fill ([motion.md](motion.md#implementation-rules-measured)) |
 | Two inline SVG copies break | Duplicate definition IDs | Prefix every instance and update all references |
 | Optimized art loses behavior | Removed IDs, groups, metadata, or selectors | Keep master; disable destructive transforms and retest |
 | Chart trend looks wrong | Wrong domain/order or decorative interpolation | Recompute from source data using a faithful mapping |
@@ -72,10 +76,17 @@ Use automated checks for concrete failure classes: invalid roots, broken
 references, duplicate IDs, missing required labels, wrong edge counts, numeric
 data mismatch, nonfinite values, and accidental raster dependencies.
 
-The bundled audit implements only part of this list. In particular, it does not
-parse path grammar, perform computed-style evaluation, validate all CSS/SMIL
-references, calculate collisions, recognize objects, or certify sanitization.
-It will miss valid XML containing malformed path syntax and visual defects.
+`audit_svg.py` covers structure only. It does not perform computed-style
+evaluation, validate all CSS/SMIL references, calculate collisions, recognize
+objects, or certify sanitization.
+
+`path_audit.py` covers contour geometry: malformed path data (as an error),
+near-kinks (joins turning more than 3° but less than 20° where a curve is
+involved), pixel staircases, faceted polylines standing in for curves, tiny
+segments, and handles much longer than their chords. `--svg-out` draws every
+segment, its handles, and the findings circled. It measures local coordinates and
+ignores stroke outlines; a deliberate shallow corner is reported as a near-kink,
+and a data line chart is legitimately "faceted". Treat findings as places to look.
 
 Use a real XML parser rather than regex as the document parser. Small regex checks
 are useful for particular attributes but not complete SVG correctness. Use
@@ -91,6 +102,68 @@ For bounds, don't assume a local geometry rectangle covers the painted result:
 strokes, joins, markers, filters, clipping, and transforms need context. A nonempty
 alpha bounding box detects emptiness, not good composition. A high path count can
 be justified. File size is a delivery constraint, not an aesthetic measure.
+
+## Reference fits
+
+For a trace, a reconstruction, or a raster logo turned vector, climb a complexity
+ladder and stop at the first rung that explains the source:
+
+1. primitives (circles, rects, lines, arcs) and transforms;
+2. a few primitives combined by boolean geometry, clips, or masks;
+3. few-curve paths for swooshes, leaves, shields, and letter-like marks;
+4. smoothed outlines with extra anchors only where the source really turns;
+5. trace-derived paths, as a measurement aid to refit, never as final art.
+
+Compare each iteration with `compare_reference.mjs art.svg source.png review/fit-NN`
+and inspect the overlay (red: the vector misses it, cyan: the vector adds it).
+The report's centroid offset and size ratio separate "shifted" and "scaled" from
+"wrong shape". There is **no IoU pass threshold**: a smooth contour with slightly
+lower IoU beats a stair-stepped trace with higher IoU. Run `path_audit.py` on the
+candidate; staircases, faceted curves, and near-kinks fail a smooth source even
+at high IoU.
+
+Budget about ten geometry iterations. Stop at the first accepted fit, or ship the
+best candidate ranked by: smoothness, no structural mismatch (center, endpoints,
+width profile, negative space), IoU and residuals, fewest audit findings, overlay
+verdict, lowest complexity. Record why a lower-IoU candidate won, and keep the
+fitting script and parameters so the work can resume.
+
+## Review with the user
+
+Before handing over finished artwork, run a review round with the user. The
+page shows the construction reveal, the motion timeline when the SVG animates,
+the target sizes on transparent, light, and dark backgrounds, and the structural,
+geometry, contrast, and motion checks. The user pins comments, draws marks
+(pen, arrow, box, ellipse, text), and presses **Send changes** or **Approve**.
+
+```bash
+node scripts/review_server.mjs art.svg [--css motion.css] [--open]   # keep running; prints {"event":"ready","url":…}
+node scripts/review_server.mjs --wait art.svg [--timeout 1800]      # blocks until the next Send/Approve
+```
+
+Run the server in the background (Claude Code: a background command; other
+agents: a second terminal or `&`) and give the user the URL. Run `--wait` after
+each change; it prints the round's `feedback.json`:
+
+- `summary`: one line per comment and mark, ready to act on;
+- `comments[]`: text, `x`/`y` in viewBox units, `t` (ms on the motion timeline,
+  `null` on a static stage), and `target` — `label` as `path_audit.py` names it,
+  a CSS `selector`, ancestor IDs, computed `fill`/`stroke`, `bbox`, and the
+  elements `below` the click;
+- `markup.items[]`: kind, color, bbox, text, `t`; `markup.svg` is the raw layer;
+- `files.annotatedPng` and `files.frames[]`: look at these images; each frame is
+  the animation at a commented time with that frame's pins and marks drawn in.
+
+Edit the SVG; the open page reloads itself and the next Send becomes the next
+round. Stop when `status` is `approved`. Rounds are kept in
+`<svg dir>/.svg-review/<name>/round-NN/` (change with `--out`; keep it out of
+version control). The server listens on 127.0.0.1 only and requires the token in
+its URL.
+
+Without a shell that can keep a server running, build the static page with
+`preview_html.mjs`; its Send downloads `<name>.review.json` and copies it to the
+clipboard, so ask the user to hand the file or its text back. The reveal is a
+construction preview, not the delivered animation.
 
 ## Verification record
 

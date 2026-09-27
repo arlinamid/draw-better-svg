@@ -1,0 +1,13 @@
+{
+  "name": "draw-better-svg-effects-lab",
+  "private": true,
+  "description": "Renders SVG effect recipes in Chromium, librsvg (sharp), and resvg and compares them. Development tool; not part of the installed skill.",
+  "type": "module",
+  "scripts": {
+    "lab": "node run.mjs",
+    "anim": "node anim-checks.mjs"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "2.6.2"
+  }
+}
