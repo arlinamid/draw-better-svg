@@ -131,10 +131,12 @@ fitting script and parameters so the work can resume.
 ## Review with the user
 
 Before handing over finished artwork, run a review round with the user. The
-page shows the construction reveal, the motion timeline when the SVG animates,
-the target sizes on transparent, light, and dark backgrounds, and the structural,
-geometry, contrast, and motion checks. The user pins comments, draws marks
-(pen, arrow, box, ellipse, text), and presses **Send changes** or **Approve**.
+page is one screen: the drawing on a canvas with a light, dark, or transparent
+background; a small toolbar (Comment, Draw, Arrow, color, Undo; keys C, D, A);
+one timeline that plays the motion, or the construction for a static drawing;
+and a Notes panel with **Send to agent** and **Approve**. Checks and target sizes
+open on demand. On the motion timeline every note keeps its frame time and shows
+as a marker on the timeline.
 
 ```bash
 node scripts/review_server.mjs art.svg [--css motion.css] [--open]   # keep running; prints {"event":"ready","url":…}
@@ -150,7 +152,9 @@ each change; it prints the round's `feedback.json`:
   `null` on a static stage), and `target` — `label` as `path_audit.py` names it,
   a CSS `selector`, ancestor IDs, computed `fill`/`stroke`, `bbox`, and the
   elements `below` the click;
-- `markup.items[]`: kind, color, bbox, text, `t`; `markup.svg` is the raw layer;
+- `markup.items[]`: kind (`pen` or `arrow`), color, bbox, `t`; `markup.svg` is the raw layer;
+- `checks`: the structural, geometry, contrast, and motion findings, re-run on the
+  file when the round is saved; `summary` ends with the open ones;
 - `files.annotatedPng` and `files.frames[]`: look at these images; each frame is
   the animation at a commented time with that frame's pins and marks drawn in.
 

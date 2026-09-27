@@ -62,6 +62,10 @@ test('serve, send one round, wait returns it, --once exits', { timeout: 60000 },
     assert.equal(fb.round, 1);
     assert.equal(fb.comments[0].target.label, 'circle#dot');
     assert.match(fb.sha256, /^[0-9a-f]{64}$/);
+    // The agent also gets the checks the user saw, re-run on the current file.
+    const contrast = fb.checks.groups.find((g) => g.name === 'Contrast');
+    assert.ok(contrast.items.some((x) => x.includes('text#wordmark')));
+    assert.match(fb.summary, /Open checks \(\d+\):[\s\S]*Contrast: dark: text#wordmark/);
     assert.ok(existsSync(join(out, 'round-01', 'feedback.json')));
     assert.ok(readFileSync(join(out, 'round-01', 'annotated.svg'), 'utf8').includes('id="dbs-review"'));
     assert.equal(await serverExit, 0);

@@ -26,7 +26,8 @@ import { watch, existsSync } from 'node:fs';
 import { createHash, randomBytes } from 'node:crypto';
 import { basename, dirname, extname, join, resolve } from 'node:path';
 import { spawn } from 'node:child_process';
-import { reviewPage, motionPage, inlineSvg } from './lib/preview-page.mjs';
+import { motionPage, inlineSvg } from './lib/preview-page.mjs';
+import { reviewPage, collectChecks, checksSummary } from './lib/review-page.mjs';
 
 const args = process.argv.slice(2);
 const has = (name) => { const i = args.indexOf(name); if (i === -1) return false; args.splice(i, 1); return true; };
@@ -154,8 +155,13 @@ async function saveRound(fb) {
   await writeFile(join(tmp, 'annotated.svg'), annotated);
   const pngError = await renderPng(annotated, join(tmp, 'annotated.png')).catch((e) => e.message);
   const frames = await captureFrames(fb, inputs, tmp).catch((e) => ({ skipped: e.message.split('\n')[0] }));
+  // Re-run the checks on the file as it is now, so the agent sees what is still open.
+  const fresh = collectChecks({ ...inputs, input: svgPath });
+  const checks = { issues: fresh.issues, groups: fresh.groups.map(({ name, source, items }) => ({ name, source, items })) };
   const record = {
     ...fb,
+    summary: [fb.summary, checksSummary(checks)].filter(Boolean).join('\n'),
+    checks,
     round,
     svg: svgPath,
     css: cssPath ? resolve(cssPath) : null,

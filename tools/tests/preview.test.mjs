@@ -23,7 +23,7 @@ test('review page: reveal, motion, sizes, checks, contrast', () => {
     const out = join(dir, 'p.html');
     const { json } = build(fixture('logo.svg'), out, '--css', fixture('motion.css'), '--sizes', '32,64');
     const html = readFileSync(out, 'utf8');
-    for (const part of ['id="dbs-stage"', 'data-stage-mode="motion"', 'id="mscrub"', '<h2>Target sizes</h2>', '<h3>Contrast', 'low-contrast paint']) {
+    for (const part of ['id="dbs-stage"', 'data-stage-mode="motion"', 'id="tl-range"', 'id="tools"', 'id="notes-list"', 'id="sizes-h">Target sizes', '<h3>Contrast', 'low-contrast paint']) {
       assert.ok(html.includes(part), part);
     }
     assert.deepEqual(json.sizes, [32, 64]);

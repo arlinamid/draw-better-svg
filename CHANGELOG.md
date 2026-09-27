@@ -6,6 +6,18 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- **The review page is one screen, usage first.** The drawing fills a canvas with a background
+  switch (light, dark, transparent); a floating toolbar keeps only Comment, Draw, Arrow, color,
+  and Undo (keys C, D, A, Esc, Ctrl+Z; one tab stop with arrow-key navigation); one timeline plays
+  the motion or the construction, with a marker for every timed note; the Notes panel holds the
+  notes and Send/Approve. Checks and target sizes open in dialogs instead of filling the page.
+  Built on `color-scheme`/`light-dark()`, the Popover API, and `<dialog closedby>` with fallbacks.
+- **Every round carries the checks.** `feedback.json` has a `checks` field, re-run on the file when
+  the round is saved, and the summary ends with the open findings; an offline file includes the
+  checks the page showed.
+
 ## [1.1.0] - 2026-09-27
 
 ### Added

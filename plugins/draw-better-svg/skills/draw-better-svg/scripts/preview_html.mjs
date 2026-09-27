@@ -13,7 +13,8 @@
 //   (?t=<ms>, ?static=1, ?bare=1, window.__dbsReady).
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
-import { reviewPage, motionPage, motionLint } from './lib/preview-page.mjs';
+import { motionPage, motionLint } from './lib/preview-page.mjs';
+import { reviewPage } from './lib/review-page.mjs';
 
 const args = process.argv.slice(2);
 const flag = (name, fallback) => {
