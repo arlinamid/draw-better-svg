@@ -54,6 +54,7 @@ dimensions N/A instead of forcing them into a misleading total score.
 | Organic art looks assembled from toys | Primitive masses never became purposeful contours | Refine silhouette and connections before texture |
 | A profile face reads as a ball with dots | Circle head; eye, mouth, ear placed on the circle | One contour with brow, nose, lips, chin, and jaw; eye just below the head's middle and set back from the profile; ear behind the jaw hinge; features never cross the cheek |
 | Head floats above the body | Neck stops short of the head, or starts at the chin | Run the neck from the collar into the nape, under the head, long enough for any head motion |
+| Feet look stuck on like blobs | The ankle was pinned to the contact point (pedal, floor, rung) | Pin the contact part (ball of the foot, palm) and solve the limb to the offset joint; let the foot pitch with the action; draw the shoe over the shin end |
 | Kink at curve join | Misaligned handles | Align tangents; inspect curvature and handle lengths |
 | Wobbly contour | Excess anchors or noisy trace | Simplify with a controlled tolerance and compare silhouette |
 | Shapes almost touch | Accidental tangent | Add a deliberate gap or overlap |
