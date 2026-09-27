@@ -1,0 +1,16 @@
+{
+  "name": "draw-better-svg",
+  "owner": {
+    "name": "Rózsavölgyi János"
+  },
+  "metadata": {
+    "description": "Draw Better SVG: an agent skill for planning, drawing, render-checking, and repairing editable SVG graphics."
+  },
+  "plugins": [
+    {
+      "name": "draw-better-svg",
+      "source": "./plugins/draw-better-svg",
+      "description": "Plan, draw, render-check, and repair editable SVG icons, logos, illustrations, diagrams, charts, patterns, and maps."
+    }
+  ]
+}

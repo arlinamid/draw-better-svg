@@ -7,6 +7,10 @@ description: >-
   patterns, maps, vector assets, SVG quality problems, and SVG prompting or
   scripting guidance. Distinguish real vectors from raster images in SVG
   wrappers and static assets from interactive web SVG.
+license: MIT
+metadata:
+  version: "1.0.0"
+  repository: https://github.com/arlinamid/draw-better-svg
 ---
 
 # Draw Better SVG
@@ -102,7 +106,8 @@ does not establish that the final result is clean, editable vector artwork.
 
 Run from this skill directory, or use its absolute path. Install optional Node
 dependencies with `npm ci --prefix scripts` only when using the example/render
-tools. The Python audit has no third-party dependencies.
+tools. The Python audit has no third-party dependencies; where `python3` is
+missing (common on Windows), run the same commands with `python`.
 
 ```bash
 python3 scripts/audit_svg.py drawing.svg --json

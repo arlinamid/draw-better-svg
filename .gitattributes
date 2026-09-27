@@ -1,0 +1,4 @@
+# Keep LF in the repository and in checkouts: skills are installed by copying
+# these files, and shebang scripts break with CRLF.
+* text=auto eol=lf
+*.png binary

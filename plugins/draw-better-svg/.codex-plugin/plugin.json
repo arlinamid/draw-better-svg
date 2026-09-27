@@ -1,0 +1,32 @@
+{
+  "name": "draw-better-svg",
+  "version": "1.0.0",
+  "description": "Plan, draw, render-check, and repair editable SVG graphics with type-specific geometry, small library recipes, and rendered visual review.",
+  "author": {
+    "name": "Rózsavölgyi János",
+    "url": "https://github.com/arlinamid"
+  },
+  "homepage": "https://github.com/arlinamid/draw-better-svg",
+  "repository": "https://github.com/arlinamid/draw-better-svg",
+  "license": "MIT",
+  "keywords": ["svg", "vector", "illustration", "icon", "logo", "diagram", "chart", "design"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Draw Better SVG",
+    "shortDescription": "Plan, draw, render, and refine editable SVG graphics",
+    "longDescription": "Classify an SVG task, plan its geometry, draw in composition, structure, geometry, and style passes, render it at the target sizes, and repair the most visible defects. Includes a dependency-free structural SVG audit and optional Node tools for rendered previews and conservative optimization.",
+    "developerName": "Rózsavölgyi János",
+    "category": "Creativity",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "websiteURL": "https://github.com/arlinamid/draw-better-svg",
+    "defaultPrompt": [
+      "Draw an editable SVG icon and check it at 24 and 48 px.",
+      "Audit this SVG and fix its most visible defects.",
+      "Plan the geometry for an SVG illustration of my brief."
+    ],
+    "brandColor": "#FEBD08",
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/icon.svg",
+    "screenshots": []
+  }
+}
