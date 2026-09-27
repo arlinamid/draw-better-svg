@@ -12,8 +12,16 @@ All notable changes to this project are documented here. The format follows
   four user review rounds next to their fixes), the Orbit logo reveal with its dark-background fix
   and frame evidence, and the built-in gallery. `npm run check` audits every example SVG.
 
+- **`docs/review-page.md`**: how to open, read, annotate, send, and approve on the review page, the
+  offline mode, and what the agent receives, with screenshots; the README gains a short version.
+  `tools/docs-screenshots.mjs` regenerates the screenshots by driving the real page.
+
 ### Fixed
 
+- The review page header fits a phone: the checks chip no longer wraps (icon and count on narrow
+  screens), and the empty Notes hint names the tools instead of relying on keyboard keys.
+- The bicycle example names the face and shoes (`path#face`, `path#near-shoe`), so review notes
+  point at named parts instead of `path[55]`.
 - The built-in examples pass the geometry audit: the lamp shade's straight side continues the curve's
   tangent, Rough.js zero-length segments are dropped, and pressure-ink outline points closer than
   2 px are merged.

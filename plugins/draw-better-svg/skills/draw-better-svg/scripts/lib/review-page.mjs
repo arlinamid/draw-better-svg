@@ -99,14 +99,14 @@ svg[aria-hidden]{width:18px;height:18px;fill:none;stroke:currentColor;stroke-wid
 .btn:disabled{opacity:.45;cursor:default}
 .icon-btn{display:inline-grid;place-items:center;width:32px;height:32px;padding:0;border:0;border-radius:8px;background:transparent}
 .icon-btn:hover{background:color-mix(in srgb,var(--fg) 8%,transparent)}
-.seg{display:inline-flex;padding:2px;border:1px solid var(--line);border-radius:9px;background:var(--paper)}
+.seg{display:inline-flex;flex:none;padding:2px;border:1px solid var(--line);border-radius:9px;background:var(--paper)}
 .seg button{border:0;background:transparent;padding:5px 10px;border-radius:7px}
 .seg button[aria-pressed=true]{background:var(--fg);color:var(--paper)}
 /* header */
 .topbar{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--paper);min-width:0}
 .title{min-width:0;margin-inline-end:auto}.title strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .title span{color:var(--muted);font-size:12px;white-space:nowrap}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--paper)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;white-space:nowrap;flex:none;border:1px solid var(--line);border-radius:999px;background:var(--paper)}
 .chip.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,var(--line))}
 .swatch-bg{display:inline-block;vertical-align:-3px;width:14px;height:14px;border-radius:4px;border:1px solid var(--line)}
 /* workspace */
@@ -272,7 +272,7 @@ export function reviewPage({ source, input, motionCss = '', sizes: sizesArg, tit
     <button type="button" data-bg="transparent" aria-pressed="false" title="Transparent"><span class="swatch-bg checker"></span><span class="label"> None</span></button>
   </div>
   <button type="button" class="chip" data-dialog="sizes-dlg">${ICONS.sizes}<span class="label">Sizes</span></button>
-  <button type="button" class="chip ${issues ? 'warn' : ''}" data-dialog="checks-dlg">${issues ? ICONS.alert : ICONS.check}<span>${issues ? `${issues} to check` : 'Checks OK'}</span></button>
+  <button type="button" class="chip ${issues ? 'warn' : ''}" data-dialog="checks-dlg">${issues ? ICONS.alert : ICONS.check}<span>${issues ? `${issues}<span class="label"> to check</span>` : '<span class="label">Checks </span>OK'}</span></button>
 </header>
 <div class="workspace">
   <section class="canvas" aria-label="Drawing">
@@ -297,7 +297,7 @@ export function reviewPage({ source, input, motionCss = '', sizes: sizesArg, tit
   <aside class="panel" aria-labelledby="notes-h">
     <header><h2 id="notes-h">Notes</h2><span id="notes-count" class="count"></span></header>
     <div class="notes">
-      <p id="notes-empty" class="empty">Press <kbd>C</kbd> and click the drawing to pin a note${animated ? '. It remembers the frame you are on' : ''}. <kbd>D</kbd> draws, <kbd>A</kbd> points.</p>
+      <p id="notes-empty" class="empty">Choose <b>Comment</b> (<kbd>C</kbd>) and click the drawing to pin a note${animated ? '; it remembers the frame you are on' : ''}. <b>Draw</b> (<kbd>D</kbd>) and <b>Arrow</b> (<kbd>A</kbd>) mark it up.</p>
       <ol id="notes-list"></ol>
     </div>
     <footer>

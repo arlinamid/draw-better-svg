@@ -37,6 +37,25 @@ Every example passes both audits; `npm run check` re-audits them.
 
 ---
 
+## The review page
+
+Before delivery the agent opens a review page. You point at what is wrong; the
+agent receives the element, the coordinates, and for animations the frame time,
+fixes it, and the page reloads.
+
+![The review page with two pinned notes, an arrow, timeline markers, and the Notes panel](docs/images/review-page.png)
+
+1. Ask the agent to **show you a preview** (or run `node scripts/review_server.mjs drawing.svg --open` from the skill directory) and open the link.
+2. Check the drawing on **Light, Dark, and None** backgrounds, open **Sizes** and **Checks**, and scrub the **timeline** of an animation.
+3. Choose **Comment** (`C`) and click the drawing to pin a note; **Draw** (`D`) and **Arrow** (`A`) mark it up; `Ctrl+Z` undoes.
+4. Press **Send to agent**. The agent fixes the drawing and the page reloads; repeat.
+5. Press **Approve** when it is done.
+
+Full guide with every control, the offline mode, and what the agent receives:
+**[docs/review-page.md](docs/review-page.md)**.
+
+---
+
 ## Install
 
 The skill is one folder with a `SKILL.md`, so any agent that reads skills can use it.
@@ -157,6 +176,7 @@ node scripts/render_review.mjs drawing.svg ./review/drawing 24,48,256
 | `.cursor-plugin/marketplace.json` | Cursor marketplace |
 | `plugins/draw-better-svg/.cursor-plugin/plugin.json` | Cursor plugin manifest |
 | `tools/` | validation, version sync, tests, effects lab |
+| `docs/review-page.md` | how to use the review page, with screenshots |
 | `docs/effects-evaluation.md` | how every adopted or rejected effect was tested |
 | `examples/` | finished work with evidence; not installed with the skill |
 

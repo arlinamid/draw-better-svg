@@ -145,7 +145,7 @@ const SHOE = 'M-10.5 1.6 C-13 1.6 -13.6 -1.5 -13.2 -4 C-12.8 -6.6 -11.4 -9 -9 -9
 function foot(id, cls, feet, color) {
   const f0 = feet[0];
   return `<g id="${id}" class="${cls}" transform="translate(${f(f0.pedal[0])} ${f(f0.pedal[1])}) rotate(${f(f0.pitch)})">
-    <path d="${SHOE}" fill="${color}"/>
+    <path id="${id.replace('-foot', '-shoe')}" d="${SHOE}" fill="${color}"/>
     <path d="M-11 0.4 L7.5 0.4" stroke="#f4f1ea" stroke-width="1.3" stroke-linecap="round" opacity="0.85"/>
   </g>`;
 }
@@ -214,7 +214,7 @@ function headShape(c) {
     + ` C${P(5, 16.4)} ${P(0.5, 15)} ${P(-3.5, 12.6)} C${P(-8, 13.2)} ${P(-13.5, 11.5)} ${P(-16, 7)} Z`; // jaw, nape
   return `
     <g transform="translate(${P(-14, -2)})"><g class="flutter-hair" transform="rotate(-6)"><path d="M0 0 Q-8 -1 -11 5 Q-5 4 -2 8 Z" fill="${C.hair}"/></g></g>
-    <path d="${face}" fill="${C.skin}"/>
+    <path id="face" d="${face}" fill="${C.skin}"/>
     <path d="M${P(-17.5, -3)} Q${P(-18, 5)} ${P(-14.5, 9)} Q${P(-10, 4)} ${P(-8.5, -3)} Z" fill="${C.hair}"/>
     <g transform="translate(${P(-4.5, 4)})"><ellipse rx="3.4" ry="4.4" fill="${C.skinDark}"/><path d="M1.2 -2.2 Q-1.4 -1 -0.4 1.8" fill="none" stroke="${C.skin}" stroke-width="1" stroke-linecap="round"/></g>
     <path d="M${P(0.5, -6)} L${P(2.5, 7)} Q${P(3.7, 14.8)} ${P(11, 15.8)}" fill="none" stroke="${C.helmetDark}" stroke-width="1.3" stroke-linecap="round"/>
