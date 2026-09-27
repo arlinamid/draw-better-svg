@@ -10,7 +10,7 @@ description: >-
   in SVG wrappers and static assets from interactive web SVG.
 license: MIT
 metadata:
-  version: "1.2.0"
+  version: "1.2.1"
   repository: https://github.com/arlinamid/draw-better-svg
 ---
 
