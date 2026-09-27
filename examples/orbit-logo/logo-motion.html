@@ -1,0 +1,87 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SVG — motion</title>
+<style>
+:root{color-scheme:light dark;--bg:#f8f5ee;--fg:#1f2a30;--line:#d9d3c7}
+@media (prefers-color-scheme:dark){:root{--bg:#17242b;--fg:#e8e4dc;--line:#33454f}}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:14px system-ui,sans-serif}
+#stage{display:grid;place-items:center;padding:24px}
+#stage svg{width:min(85vw,560px);height:auto;max-height:70vh}
+.bar{display:flex;gap:12px;align-items:center;justify-content:center;padding:0 16px 16px;flex-wrap:wrap}
+button{font:inherit;padding:6px 12px;border:1px solid var(--line);background:transparent;color:inherit;border-radius:6px;cursor:pointer}
+</style>
+<style id="motion-css">/* Tokens document the choices; keyframe easings are written literally because
+   Chromium drops var() used as animation-timing-function inside @keyframes. */
+:root { --dbs-ease-draw: cubic-bezier(0.4, 0, 0.2, 1); --dbs-ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1); }
+@media (prefers-reduced-motion: no-preference) {
+  /* backwards fill: the motion-only properties (dash, clip) vanish at the end, so
+     the last frame is exactly the delivered SVG. */
+  #ring { animation: dbs-draw 900ms cubic-bezier(0.4, 0, 0.2, 1) 100ms backwards; }
+  #dot { transform-box: fill-box; transform-origin: center; animation: dbs-pop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) 750ms backwards; }
+  #wordmark { animation: dbs-wipe 600ms cubic-bezier(0.16, 1, 0.3, 1) 950ms backwards; }
+}
+@keyframes dbs-draw { from { stroke-dasharray: 1 2; stroke-dashoffset: 1; } to { stroke-dasharray: 1 2; stroke-dashoffset: 0; } }
+@keyframes dbs-pop { from { transform: scale(0); opacity: 0; } 70% { transform: scale(1.12); opacity: 1; } to { transform: scale(1); opacity: 1; } }
+@keyframes dbs-wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+</style></head><body>
+<div id="stage"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120" role="img" aria-labelledby="logo-title">
+  <style>@media (prefers-color-scheme: dark) { #wordmark { fill: #f4f1ea; } #ring { stroke: #5fa8ad; } }</style>
+  <title id="logo-title">Orbit logo</title>
+  <g id="mark">
+    <circle id="ring" cx="60" cy="60" r="38" fill="none" stroke="#2f6f73" stroke-width="10" pathLength="1"/>
+    <circle id="dot" cx="87" cy="33" r="11" fill="#e8743b"/>
+  </g>
+  <text id="wordmark" x="118" y="74" font-family="Arial, sans-serif" font-size="40" font-weight="700" fill="#1f2a30">Orbit</text>
+</svg>
+</div>
+<div class="bar"><button id="replay">Replay</button><button id="slow">Slow motion</button>
+<label>Speed <input id="speed" type="range" min="0.1" max="2" step="0.05" value="1"> <span id="speedv">1×</span></label>
+<button id="final">Final frame</button></div>
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  const svg = document.querySelector('#stage svg');
+  const anims = () => document.getAnimations();
+  const smil = svg && typeof svg.pauseAnimations === 'function' && svg.querySelector('animate,animateTransform,animateMotion,set');
+  const end = () => Math.max(0, ...anims().map((a) => {
+    const t = a.effect?.getComputedTiming?.();
+    return t && Number.isFinite(t.endTime) ? t.endTime : 0;
+  }));
+  window.__dbsDuration = end();
+  function seek(ms) {
+    for (const a of anims()) { a.pause(); a.currentTime = ms; }
+    if (smil) { svg.pauseAnimations(); svg.setCurrentTime(ms / 1000); }
+  }
+  function finalState() {
+    for (const a of anims()) {
+      const t = a.effect?.getComputedTiming?.();
+      if (t && Number.isFinite(t.endTime)) a.finish(); else { a.pause(); a.currentTime = 0; }
+    }
+    if (smil) { svg.pauseAnimations(); svg.setCurrentTime(window.__dbsDuration / 1000 || 0); }
+  }
+  function ready() { requestAnimationFrame(() => requestAnimationFrame(() => { window.__dbsReady = true; })); }
+  const t = params.get('t');
+  if (params.has('bare')) {
+    document.getElementById('motion-css')?.remove();
+    for (const a of anims()) a.cancel();
+    if (smil) { svg.pauseAnimations(); svg.setCurrentTime(0); }
+    ready();
+  } else if (params.has('static')) { finalState(); ready(); }
+  else if (t !== null) { seek(Number(t)); ready(); }
+  else ready();
+  const $ = (id) => document.getElementById(id);
+  if (!$('replay')) return;
+  // Finished animations without forwards fill leave getAnimations(), so restart
+  // by re-inserting every stylesheet that declares keyframes.
+  $('replay').onclick = () => {
+    const sheets = [...document.querySelectorAll('style')].filter((s) => /@keyframes|animation/.test(s.textContent));
+    const texts = sheets.map((s) => s.textContent);
+    sheets.forEach((s) => { s.textContent = ''; });
+    void document.body.offsetWidth;
+    sheets.forEach((s, i) => { s.textContent = texts[i]; });
+    for (const a of anims()) a.playbackRate = Number($('speed').value);
+    if (smil) { svg.setCurrentTime(0); svg.unpauseAnimations(); }
+  };
+  $('speed').oninput = () => { for (const a of anims()) a.playbackRate = Number($('speed').value); $('speedv').textContent = $('speed').value + '×'; };
+  $('slow').onclick = () => { $('speed').value = $('speed').value === '0.25' ? '1' : '0.25'; $('speed').oninput(); };
+  $('final').onclick = finalState;
+})();</script></body></html>

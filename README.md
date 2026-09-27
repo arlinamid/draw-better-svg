@@ -11,6 +11,8 @@
 npx skills add arlinamid/draw-better-svg
 ```
 
+<p align="center"><img src="examples/bicycle-boy/boy-bike.svg" width="480" alt="An animated SVG made with the skill: a boy riding a bicycle"></p>
+
 The skill treats valid XML, correct geometry, and visual quality as three separate
 requirements. It classifies the task, draws in passes (composition → structure →
 geometry → style), renders the result at the sizes it will be shown at, and fixes
@@ -20,6 +22,18 @@ at its target sizes on transparent, light, and dark backgrounds, and the structu
 geometry, and contrast checks. The user pins comments and draws on it, and Send
 hands the round to the agent through a small local server — element names,
 coordinates, animation frame times, and annotated images included.
+
+---
+
+## Examples
+
+| | |
+| --- | --- |
+| **[A boy riding his bicycle](examples/bicycle-boy/)** | Animated character: IK limbs, one 16 s clock, character-motion principles, and four review rounds with the user shown next to their fixes |
+| **[Orbit](examples/orbit-logo/)** | Logo reveal: artifact-free draw-on, overshoot, wipe, a pixel-exact end state, and a dark-background fix |
+| **[Gallery](examples/#gallery)** | Icon, boolean mark, illustration, sketch, chart, diagram, pressure ink, and pattern from the built-in study set |
+
+Every example passes both audits; `npm run check` re-audits them.
 
 ---
 
@@ -144,6 +158,7 @@ node scripts/render_review.mjs drawing.svg ./review/drawing 24,48,256
 | `plugins/draw-better-svg/.cursor-plugin/plugin.json` | Cursor plugin manifest |
 | `tools/` | validation, version sync, tests, effects lab |
 | `docs/effects-evaluation.md` | how every adopted or rejected effect was tested |
+| `examples/` | finished work with evidence; not installed with the skill |
 
 ## Development
 

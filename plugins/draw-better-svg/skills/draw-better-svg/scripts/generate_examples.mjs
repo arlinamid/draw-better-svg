@@ -70,7 +70,7 @@ room.circle(192).center(208,105).fill('#eee1c9');
 room.path('M0 174 Q160 166 360 179 L360 240 L0 240 Z').fill('#dfd1b5');
 const lamp = d.group().id('study-lamp');
 lamp.path('M102 186 L124 78 L194 50').fill('none').stroke({color:ink,width:7,linecap:'round',linejoin:'round'});
-lamp.path('M174 46 Q196 34 207 55 L220 86 L164 86 Z').fill(teal);
+lamp.path('M174 46 Q196 34 207 55 L223.24 86 L164 86 Z').fill(teal);
 lamp.path('M173 85 L133 181 L267 181 L212 85 Z').fill('#e7c580').opacity(.28);
 lamp.ellipse(58,12).center(103,189).fill(ink);
 lamp.ellipse(56,9).center(192,85).fill(gold);
@@ -94,8 +94,22 @@ await save('03-editorial-scene','Flat illustration','SVG.js · planned layers',d
 // 4. Rough.js emits SVG paths without requiring a browser DOM.
 const rg = rough.generator();
 let roughBody = '';
+// Rough.js emits zero-length segments (every point equal to the current point);
+// drop them so the geometry audit stays clean.
+function dropZeroSegments(d) {
+  const out = [];
+  let cur = null;
+  for (const m of d.matchAll(/([MLC])([^MLC]*)/g)) {
+    const nums = (m[2].match(/-?\d*\.?\d+(?:e-?\d+)?/gi) || []).map(Number);
+    const end = nums.slice(-2);
+    if (m[1] !== 'M' && cur && nums.every((v, i) => Math.abs(v - cur[i % 2]) < 1e-6)) continue;
+    out.push(m[0].trim());
+    cur = end;
+  }
+  return out.join(' ');
+}
 function roughPaths(drawable) {
-  return rg.toPaths(drawable).map(p => `<path d="${esc(p.d)}" fill="${esc(p.fill || 'none')}" stroke="${esc(p.stroke)}" stroke-width="${p.strokeWidth}"/>`).join('');
+  return rg.toPaths(drawable).map(p => `<path d="${esc(dropZeroSegments(p.d))}" fill="${esc(p.fill || 'none')}" stroke="${esc(p.stroke)}" stroke-width="${p.strokeWidth}"/>`).join('');
 }
 roughBody += roughPaths(rg.path('M166 214 Q191 143 173 37', {seed:51,roughness:.6,stroke:ink,strokeWidth:2.2}));
 for (const [i,shape] of [
@@ -140,7 +154,8 @@ for (let i=0;i<=60;i++) {
   const t=i/60;
   samples.push([42+276*t,120-62*Math.sin(t*Math.PI*2),.2+.65*Math.sin(t*Math.PI)]);
 }
-const outline = getStroke(samples,{size:16,thinning:.75,smoothing:.55,streamline:.4,simulatePressure:false,last:true});
+const outline = getStroke(samples,{size:16,thinning:.75,smoothing:.55,streamline:.4,simulatePressure:false,last:true})
+  .filter((p, i, all) => i === 0 || Math.hypot(p[0] - all[i - 1][0], p[1] - all[i - 1][1]) >= 2); // dense cap points read as noisy anchors
 // Quadratic curves through the midpoints between outline points (the approach the
 // perfect-freehand README documents); straight L segments make the ink faceted.
 const mid=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];

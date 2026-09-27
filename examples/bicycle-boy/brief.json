@@ -1,0 +1,38 @@
+{
+  "subject": "A little boy riding a bicycle along a road",
+  "purpose": "Friendly animated illustration that loops seamlessly",
+  "classification": {
+    "semantic_type": "organic-character + technical-object (bicycle)",
+    "construction": "editable native vectors, computed geometry",
+    "delivery": "standalone animated SVG, CSS keyframes inside the file"
+  },
+  "canvas": { "viewBox": [0, 0, 480, 300], "review_widths_px": [240, 480, 960] },
+  "style": {
+    "palette": ["#d7ecf2", "#a8d5b8", "#4f9a6b", "#4a5560", "#e5484d", "#2f6f9f", "#f2c49b", "#f59e0b", "#1f2a30"],
+    "line_policy": "Filled masses for the boy and scenery; stroked tubes only for the bicycle frame, spokes, and road markings",
+    "lighting": "Flat, soft daylight; no shadows except a contact shadow under the wheels",
+    "background": "Opaque sky, hills, trees, road"
+  },
+  "composition": {
+    "focal_object": "Boy on the bicycle, slightly left of center, moving right",
+    "layers_back_to_front": ["sky", "clouds", "hills", "trees", "road", "far leg and crank", "bicycle", "near crank and leg", "boy", "near arm"],
+    "required_landmarks": ["hip on the saddle", "hands on the grips", "feet on the pedals through the whole stroke", "helmet"],
+    "negative_space": "Keep the sky above the rider open"
+  },
+  "motion": {
+    "personality": ["cheerful", "steady", "light"],
+    "clock_ms": 1600,
+    "parts": {
+      "crank_and_legs": "one pedal turn per 1600 ms; legs solved by two-bone IK at 24 poses",
+      "wheels": "one turn per 800 ms",
+      "road_markings": "scroll at the wheels' rolling speed (period 400 ms)",
+      "trees": "parallax, period 4800 ms",
+      "clouds": "parallax, period 16000 ms",
+      "rider_bob": "1.2 px bob per pedal stroke (800 ms)"
+    },
+    "reduced_motion": "the static drawing (pose at t = 0)"
+  },
+  "exact_text": [],
+  "constraints": ["No raster images", "Named object groups", "Self-contained SVG", "Feet never leave the pedals"],
+  "acceptance": ["Reads as a boy on a bicycle at 240 px", "Legs stay attached to hip and pedals in every captured frame", "No clipped shapes", "Loop seam invisible"]
+}

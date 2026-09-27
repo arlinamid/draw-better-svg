@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120" role="img" aria-labelledby="logo-title">
+  <title id="logo-title">Orbit logo</title>
+  <g id="mark">
+    <circle id="ring" cx="60" cy="60" r="38" fill="none" stroke="#2f6f73" stroke-width="10" pathLength="1"/>
+    <circle id="dot" cx="87" cy="33" r="11" fill="#e8743b"/>
+  </g>
+  <text id="wordmark" x="118" y="74" font-family="Arial, sans-serif" font-size="40" font-weight="700" fill="#1f2a30">Orbit</text>
+</svg>

@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" width="480" height="300" role="img" aria-labelledby="bb-title bb-desc">
+<title id="bb-title">A boy riding his bicycle</title>
+<desc id="bb-desc">A boy in a blue shirt and an orange helmet pedals a red bicycle along a road past trees, under a sunny sky.</desc>
+<style>
+#bike-rider .spin, #bike-rider [class*=crank], #bike-rider [class*=thigh], #bike-rider [class*=shin], .scroll, #bike-rider,
+.torso, .head-lag, .arm-upper, .arm-fore, .flutter-hair, .foot-near, .foot-far { transform-origin: 0 0; }
+@media (prefers-reduced-motion: no-preference) {
+  /* One clock: pedal turn 1600 ms; wheels 800 ms; road 400 ms; trees 3200 ms; clouds 16000 ms. */
+  .spin { animation: spin 800ms linear infinite; }
+  .crank-near { animation: crank-near 1600ms linear infinite; }
+  .crank-near-pedal { animation: pedal-near 1600ms linear infinite; }
+  .crank-far { animation: crank-far 1600ms linear infinite; }
+  .crank-far-pedal { animation: pedal-far 1600ms linear infinite; }
+  .near-thigh { animation: near-thigh 1600ms linear infinite; }
+  .near-shin { animation: near-shin 1600ms linear infinite; }
+  .far-thigh { animation: far-thigh 1600ms linear infinite; }
+  .far-shin { animation: far-shin 1600ms linear infinite; }
+  .foot-near { animation: foot-near 1600ms linear infinite; }
+  .foot-far { animation: foot-far 1600ms linear infinite; }
+  #road-dashes { animation: scroll-dash 400ms linear infinite; }
+  #trees { animation: scroll-tile 3200ms linear infinite; }
+  #clouds { animation: scroll-tile 16000ms linear infinite; }
+  #bike-rider { animation: bob 800ms cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+  /* Body on the pedal stroke (800 ms): sampled, so linear between samples. */
+  .torso { animation: torso 800ms linear infinite; }
+  .head-lag { animation: head-lag 800ms linear infinite; }
+  .arm-upper { animation: arm-upper 800ms linear infinite; }
+  .arm-fore { animation: arm-fore 800ms linear infinite; }
+  /* Secondary action: wind (400 ms); the easing sits on the animation, not in keyframes. */
+  .flutter-hair { animation: flutter-hair 400ms cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+}
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes crank-near { from { transform: rotate(-40deg); } to { transform: rotate(320deg); } }
+@keyframes pedal-near { from { transform: rotate(40deg); } to { transform: rotate(-320deg); } }
+@keyframes crank-far { from { transform: rotate(140deg); } to { transform: rotate(500deg); } }
+@keyframes pedal-far { from { transform: rotate(-140deg); } to { transform: rotate(-500deg); } }
+@keyframes foot-near{0%{transform:translate(239.02px,211.07px) rotate(4.86deg)}4.17%{transform:translate(241.41px,214.82px) rotate(6.62deg)}8.33%{transform:translate(242.74px,219.05px) rotate(8.61deg)}12.5%{transform:translate(242.94px,223.48px) rotate(10.7deg)}16.67%{transform:translate(241.97px,227.81px) rotate(12.74deg)}20.83%{transform:translate(239.93px,231.75px) rotate(14.59deg)}25%{transform:translate(236.93px,235.02px) rotate(16.13deg)}29.17%{transform:translate(233.18px,237.41px) rotate(17.25deg)}33.33%{transform:translate(228.95px,238.74px) rotate(17.88deg)}37.5%{transform:translate(224.52px,238.94px) rotate(17.97deg)}41.67%{transform:translate(220.19px,237.97px) rotate(17.52deg)}45.83%{transform:translate(216.25px,235.93px) rotate(16.55deg)}50%{transform:translate(212.98px,232.93px) rotate(15.14deg)}54.17%{transform:translate(210.59px,229.18px) rotate(13.38deg)}58.33%{transform:translate(209.26px,224.95px) rotate(11.39deg)}62.5%{transform:translate(209.06px,220.52px) rotate(9.3deg)}66.67%{transform:translate(210.03px,216.19px) rotate(7.26deg)}70.83%{transform:translate(212.07px,212.25px) rotate(5.41deg)}75%{transform:translate(215.07px,208.98px) rotate(3.87deg)}79.17%{transform:translate(218.82px,206.59px) rotate(2.75deg)}83.33%{transform:translate(223.05px,205.26px) rotate(2.12deg)}87.5%{transform:translate(227.48px,205.06px) rotate(2.03deg)}91.67%{transform:translate(231.81px,206.03px) rotate(2.48deg)}95.83%{transform:translate(235.75px,208.07px) rotate(3.45deg)}100%{transform:translate(239.02px,211.07px) rotate(4.86deg)}}
+@keyframes foot-far{0%{transform:translate(212.98px,232.93px) rotate(15.14deg)}4.17%{transform:translate(210.59px,229.18px) rotate(13.38deg)}8.33%{transform:translate(209.26px,224.95px) rotate(11.39deg)}12.5%{transform:translate(209.06px,220.52px) rotate(9.3deg)}16.67%{transform:translate(210.03px,216.19px) rotate(7.26deg)}20.83%{transform:translate(212.07px,212.25px) rotate(5.41deg)}25%{transform:translate(215.07px,208.98px) rotate(3.87deg)}29.17%{transform:translate(218.82px,206.59px) rotate(2.75deg)}33.33%{transform:translate(223.05px,205.26px) rotate(2.12deg)}37.5%{transform:translate(227.48px,205.06px) rotate(2.03deg)}41.67%{transform:translate(231.81px,206.03px) rotate(2.48deg)}45.83%{transform:translate(235.75px,208.07px) rotate(3.45deg)}50%{transform:translate(239.02px,211.07px) rotate(4.86deg)}54.17%{transform:translate(241.41px,214.82px) rotate(6.62deg)}58.33%{transform:translate(242.74px,219.05px) rotate(8.61deg)}62.5%{transform:translate(242.94px,223.48px) rotate(10.7deg)}66.67%{transform:translate(241.97px,227.81px) rotate(12.74deg)}70.83%{transform:translate(239.93px,231.75px) rotate(14.59deg)}75%{transform:translate(236.93px,235.02px) rotate(16.13deg)}79.17%{transform:translate(233.18px,237.41px) rotate(17.25deg)}83.33%{transform:translate(228.95px,238.74px) rotate(17.88deg)}87.5%{transform:translate(224.52px,238.94px) rotate(17.97deg)}91.67%{transform:translate(220.19px,237.97px) rotate(17.52deg)}95.83%{transform:translate(216.25px,235.93px) rotate(16.55deg)}100%{transform:translate(212.98px,232.93px) rotate(15.14deg)}}
+@keyframes near-thigh{0%{transform:rotate(24.45deg)}4.17%{transform:rotate(27.18deg)}8.33%{transform:rotate(31.42deg)}12.5%{transform:rotate(36.8deg)}16.67%{transform:rotate(42.94deg)}20.83%{transform:rotate(49.46deg)}25%{transform:rotate(55.89deg)}29.17%{transform:rotate(61.68deg)}33.33%{transform:rotate(66.12deg)}37.5%{transform:rotate(68.69deg)}41.67%{transform:rotate(69.46deg)}45.83%{transform:rotate(68.85deg)}50%{transform:rotate(67.29deg)}54.17%{transform:rotate(65.01deg)}58.33%{transform:rotate(62.08deg)}62.5%{transform:rotate(58.52deg)}66.67%{transform:rotate(54.28deg)}70.83%{transform:rotate(49.37deg)}75%{transform:rotate(43.88deg)}79.17%{transform:rotate(38.09deg)}83.33%{transform:rotate(32.5deg)}87.5%{transform:rotate(27.82deg)}91.67%{transform:rotate(24.7deg)}95.83%{transform:rotate(23.55deg)}100%{transform:rotate(24.45deg)}}
+@keyframes near-shin{0%{transform:rotate(93.54deg)}4.17%{transform:rotate(85.99deg)}8.33%{transform:rotate(77.56deg)}12.5%{transform:rotate(68.63deg)}16.67%{transform:rotate(59.59deg)}20.83%{transform:rotate(50.88deg)}25%{transform:rotate(43.11deg)}29.17%{transform:rotate(37.17deg)}33.33%{transform:rotate(34.19deg)}37.5%{transform:rotate(34.97deg)}41.67%{transform:rotate(39.21deg)}45.83%{transform:rotate(45.85deg)}50%{transform:rotate(53.83deg)}54.17%{transform:rotate(62.43deg)}58.33%{transform:rotate(71.19deg)}62.5%{transform:rotate(79.73deg)}66.67%{transform:rotate(87.73deg)}70.83%{transform:rotate(94.86deg)}75%{transform:rotate(100.72deg)}79.17%{transform:rotate(104.9deg)}83.33%{transform:rotate(107.02deg)}87.5%{transform:rotate(106.84deg)}91.67%{transform:rotate(104.36deg)}95.83%{transform:rotate(99.8deg)}100%{transform:rotate(93.54deg)}}
+@keyframes far-thigh{0%{transform:rotate(67.29deg)}4.17%{transform:rotate(65.01deg)}8.33%{transform:rotate(62.08deg)}12.5%{transform:rotate(58.52deg)}16.67%{transform:rotate(54.28deg)}20.83%{transform:rotate(49.37deg)}25%{transform:rotate(43.88deg)}29.17%{transform:rotate(38.09deg)}33.33%{transform:rotate(32.5deg)}37.5%{transform:rotate(27.82deg)}41.67%{transform:rotate(24.7deg)}45.83%{transform:rotate(23.55deg)}50%{transform:rotate(24.45deg)}54.17%{transform:rotate(27.18deg)}58.33%{transform:rotate(31.42deg)}62.5%{transform:rotate(36.8deg)}66.67%{transform:rotate(42.94deg)}70.83%{transform:rotate(49.46deg)}75%{transform:rotate(55.89deg)}79.17%{transform:rotate(61.68deg)}83.33%{transform:rotate(66.12deg)}87.5%{transform:rotate(68.69deg)}91.67%{transform:rotate(69.46deg)}95.83%{transform:rotate(68.85deg)}100%{transform:rotate(67.29deg)}}
+@keyframes far-shin{0%{transform:rotate(53.83deg)}4.17%{transform:rotate(62.43deg)}8.33%{transform:rotate(71.19deg)}12.5%{transform:rotate(79.73deg)}16.67%{transform:rotate(87.73deg)}20.83%{transform:rotate(94.86deg)}25%{transform:rotate(100.72deg)}29.17%{transform:rotate(104.9deg)}33.33%{transform:rotate(107.02deg)}37.5%{transform:rotate(106.84deg)}41.67%{transform:rotate(104.36deg)}45.83%{transform:rotate(99.8deg)}50%{transform:rotate(93.54deg)}54.17%{transform:rotate(85.99deg)}58.33%{transform:rotate(77.56deg)}62.5%{transform:rotate(68.63deg)}66.67%{transform:rotate(59.59deg)}70.83%{transform:rotate(50.88deg)}75%{transform:rotate(43.11deg)}79.17%{transform:rotate(37.17deg)}83.33%{transform:rotate(34.19deg)}87.5%{transform:rotate(34.97deg)}91.67%{transform:rotate(39.21deg)}95.83%{transform:rotate(45.85deg)}100%{transform:rotate(53.83deg)}}
+@keyframes scroll-dash { from { transform: translateX(0); } to { transform: translateX(-125.66px); } }
+@keyframes scroll-tile { from { transform: translateX(0); } to { transform: translateX(-480px); } }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-0.6px); } }
+@keyframes torso{0%{transform:translateY(0px) rotate(0deg)}6.25%{transform:translateY(0.03px) rotate(0.09deg)}12.5%{transform:translateY(0.13px) rotate(0.35deg)}18.75%{transform:translateY(0.28px) rotate(0.74deg)}25%{transform:translateY(0.45px) rotate(1.2deg)}31.25%{transform:translateY(0.62px) rotate(1.66deg)}37.5%{transform:translateY(0.77px) rotate(2.05deg)}43.75%{transform:translateY(0.87px) rotate(2.31deg)}50%{transform:translateY(0.9px) rotate(2.4deg)}56.25%{transform:translateY(0.87px) rotate(2.31deg)}62.5%{transform:translateY(0.77px) rotate(2.05deg)}68.75%{transform:translateY(0.62px) rotate(1.66deg)}75%{transform:translateY(0.45px) rotate(1.2deg)}81.25%{transform:translateY(0.28px) rotate(0.74deg)}87.5%{transform:translateY(0.13px) rotate(0.35deg)}93.75%{transform:translateY(0.03px) rotate(0.09deg)}100%{transform:translateY(0px) rotate(0deg)}}
+@keyframes head-lag{0%{transform:rotate(-1.16deg)}6.25%{transform:rotate(-0.67deg)}12.5%{transform:rotate(-0.18deg)}18.75%{transform:rotate(0.24deg)}25%{transform:rotate(0.52deg)}31.25%{transform:rotate(0.62deg)}37.5%{transform:rotate(0.53deg)}43.75%{transform:rotate(0.26deg)}50%{transform:rotate(-0.16deg)}56.25%{transform:rotate(-0.65deg)}62.5%{transform:rotate(-1.14deg)}68.75%{transform:rotate(-1.56deg)}75%{transform:rotate(-1.84deg)}81.25%{transform:rotate(-1.94deg)}87.5%{transform:rotate(-1.85deg)}93.75%{transform:rotate(-1.58deg)}100%{transform:rotate(-1.16deg)}}
+@keyframes arm-upper{0%{transform:translate(240px,100px) rotate(79.69deg)}6.25%{transform:translate(240.07px,100.08px) rotate(79.91deg)}12.5%{transform:translate(240.28px,100.29px) rotate(80.53deg)}18.75%{transform:translate(240.59px,100.62px) rotate(81.45deg)}25%{transform:translate(240.96px,101px) rotate(82.5deg)}31.25%{transform:translate(241.32px,101.39px) rotate(83.52deg)}37.5%{transform:translate(241.63px,101.73px) rotate(84.37deg)}43.75%{transform:translate(241.83px,101.95px) rotate(84.92deg)}50%{transform:translate(241.9px,102.03px) rotate(85.12deg)}56.25%{transform:translate(241.83px,101.95px) rotate(84.92deg)}62.5%{transform:translate(241.63px,101.73px) rotate(84.37deg)}68.75%{transform:translate(241.32px,101.39px) rotate(83.52deg)}75%{transform:translate(240.96px,101px) rotate(82.5deg)}81.25%{transform:translate(240.59px,100.62px) rotate(81.45deg)}87.5%{transform:translate(240.28px,100.29px) rotate(80.53deg)}93.75%{transform:translate(240.07px,100.08px) rotate(79.91deg)}100%{transform:translate(240px,100px) rotate(79.69deg)}}
+@keyframes arm-fore{0%{transform:rotate(-56.36deg)}6.25%{transform:rotate(-56.79deg)}12.5%{transform:rotate(-58deg)}18.75%{transform:rotate(-59.77deg)}25%{transform:rotate(-61.8deg)}31.25%{transform:rotate(-63.78deg)}37.5%{transform:rotate(-65.42deg)}43.75%{transform:rotate(-66.49deg)}50%{transform:rotate(-66.87deg)}56.25%{transform:rotate(-66.49deg)}62.5%{transform:rotate(-65.42deg)}68.75%{transform:rotate(-63.78deg)}75%{transform:rotate(-61.8deg)}81.25%{transform:rotate(-59.77deg)}87.5%{transform:rotate(-58deg)}93.75%{transform:rotate(-56.79deg)}100%{transform:rotate(-56.36deg)}}
+@keyframes flutter-hair { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(8deg); } }
+</style>
+<defs><clipPath id="bb-frame"><rect width="480" height="300"/></clipPath></defs>
+<g id="scene" clip-path="url(#bb-frame)">
+<g id="sky"><rect width="480" height="300" fill="#d7ecf2"/><circle cx="410" cy="52" r="22" fill="#ffd36b"/></g>
+<g id="clouds" class="scroll" fill="#ffffff"><g transform="translate(60 52) scale(1)"><circle cx="-14" cy="0" r="12"/><circle cx="4" cy="-8" r="16"/><circle cx="22" cy="0" r="11"/><rect x="-26" y="0" width="58" height="11" rx="5.5"/></g><g transform="translate(250 34) scale(0.8)"><circle cx="-14" cy="0" r="12"/><circle cx="4" cy="-8" r="16"/><circle cx="22" cy="0" r="11"/><rect x="-26" y="0" width="58" height="11" rx="5.5"/></g><g transform="translate(390 70) scale(0.65)"><circle cx="-14" cy="0" r="12"/><circle cx="4" cy="-8" r="16"/><circle cx="22" cy="0" r="11"/><rect x="-26" y="0" width="58" height="11" rx="5.5"/></g><g transform="translate(480 0)"><g transform="translate(60 52) scale(1)"><circle cx="-14" cy="0" r="12"/><circle cx="4" cy="-8" r="16"/><circle cx="22" cy="0" r="11"/><rect x="-26" y="0" width="58" height="11" rx="5.5"/></g><g transform="translate(250 34) scale(0.8)"><circle cx="-14" cy="0" r="12"/><circle cx="4" cy="-8" r="16"/><circle cx="22" cy="0" r="11"/><rect x="-26" y="0" width="58" height="11" rx="5.5"/></g><g transform="translate(390 70) scale(0.65)"><circle cx="-14" cy="0" r="12"/><circle cx="4" cy="-8" r="16"/><circle cx="22" cy="0" r="11"/><rect x="-26" y="0" width="58" height="11" rx="5.5"/></g></g></g>
+<g id="hills">
+  <path d="M0 196 C70 160 140 170 210 188 S350 160 480 180 L480 236 L0 236 Z" fill="#bfe0cb"/>
+  <path d="M0 214 C90 190 170 204 250 212 S400 196 480 206 L480 236 L0 236 Z" fill="#a8d5b8"/>
+</g>
+<g id="trees" class="scroll"><g transform="translate(36 236) scale(1)"><rect x="-3" y="-34" width="6" height="34" rx="2" fill="#8a5a3b"/><circle cx="0" cy="-44" r="17" fill="#4f9a6b"/><circle cx="-9" cy="-36" r="11" fill="#4f9a6b"/><circle cx="10" cy="-35" r="12" fill="#4f9a6b"/></g><g transform="translate(128 236) scale(0.8)"><rect x="-3" y="-34" width="6" height="34" rx="2" fill="#8a5a3b"/><circle cx="0" cy="-44" r="17" fill="#5fae7a"/><circle cx="-9" cy="-36" r="11" fill="#5fae7a"/><circle cx="10" cy="-35" r="12" fill="#5fae7a"/></g><g transform="translate(236 236) scale(1.1)"><rect x="-3" y="-34" width="6" height="34" rx="2" fill="#8a5a3b"/><circle cx="0" cy="-44" r="17" fill="#4f9a6b"/><circle cx="-9" cy="-36" r="11" fill="#4f9a6b"/><circle cx="10" cy="-35" r="12" fill="#4f9a6b"/></g><g transform="translate(330 236) scale(0.75)"><rect x="-3" y="-34" width="6" height="34" rx="2" fill="#8a5a3b"/><circle cx="0" cy="-44" r="17" fill="#5fae7a"/><circle cx="-9" cy="-36" r="11" fill="#5fae7a"/><circle cx="10" cy="-35" r="12" fill="#5fae7a"/></g><g transform="translate(420 236) scale(0.95)"><rect x="-3" y="-34" width="6" height="34" rx="2" fill="#8a5a3b"/><circle cx="0" cy="-44" r="17" fill="#4f9a6b"/><circle cx="-9" cy="-36" r="11" fill="#4f9a6b"/><circle cx="10" cy="-35" r="12" fill="#4f9a6b"/></g><g transform="translate(480 0)"><g transform="translate(36 236) scale(1)"><rect x="-3" y="-34" width="6" height="34" rx="2" fill="#8a5a3b"/><circle cx="0" cy="-44" r="17" fill="#4f9a6b"/><circle cx="-9" cy="-36" r="11" fill="#4f9a6b"/><circle cx="10" cy="-35" r="12" fill="#4f9a6b"/></g><g transform="translate(128 236) scale(0.8)"><rect x="-3" y="-34" width="6" height="34" rx="2" fill="#8a5a3b"/><circle cx="0" cy="-44" r="17" fill="#5fae7a"/><circle cx="-9" cy="-36" r="11" fill="#5fae7a"/><circle cx="10" cy="-35" r="12" fill="#5fae7a"/></g><g transform="translate(236 236) scale(1.1)"><rect x="-3" y="-34" width="6" height="34" rx="2" fill="#8a5a3b"/><circle cx="0" cy="-44" r="17" fill="#4f9a6b"/><circle cx="-9" cy="-36" r="11" fill="#4f9a6b"/><circle cx="10" cy="-35" r="12" fill="#4f9a6b"/></g><g transform="translate(330 236) scale(0.75)"><rect x="-3" y="-34" width="6" height="34" rx="2" fill="#8a5a3b"/><circle cx="0" cy="-44" r="17" fill="#5fae7a"/><circle cx="-9" cy="-36" r="11" fill="#5fae7a"/><circle cx="10" cy="-35" r="12" fill="#5fae7a"/></g><g transform="translate(420 236) scale(0.95)"><rect x="-3" y="-34" width="6" height="34" rx="2" fill="#8a5a3b"/><circle cx="0" cy="-44" r="17" fill="#4f9a6b"/><circle cx="-9" cy="-36" r="11" fill="#4f9a6b"/><circle cx="10" cy="-35" r="12" fill="#4f9a6b"/></g></g></g>
+<g id="road">
+  <rect y="236" width="480" height="64" fill="#4a5560"/>
+  <rect y="236" width="480" height="3" fill="#6b7780"/>
+</g>
+<g id="road-dashes" class="scroll" fill="#f4f1ea" opacity="0.9"><rect x="0" y="277" width="58" height="5" rx="2.5"/><rect x="125.66" y="277" width="58" height="5" rx="2.5"/><rect x="251.33" y="277" width="58" height="5" rx="2.5"/><rect x="376.99" y="277" width="58" height="5" rx="2.5"/><rect x="502.65" y="277" width="58" height="5" rx="2.5"/><rect x="628.32" y="277" width="58" height="5" rx="2.5"/></g>
+<g id="shadows" fill="#000000" opacity="0.18">
+  <ellipse cx="168" cy="259" rx="34" ry="3"/><ellipse cx="298" cy="259" rx="34" ry="3"/>
+</g>
+<g id="bike-rider">
+  <g id="far-leg" transform="translate(214 146)"><g class="far-thigh" transform="rotate(67.29)">
+    <g transform="translate(43 0)"><g class="far-shin" transform="rotate(53.83)">
+      <path d="M0.18 -5.5 L46.13 -4 A4 4 0 0 1 46.13 4 L0.18 5.5 A5.5 5.5 0 1 1 0.18 -5.5 Z" fill="#d9a97c"/>
+      <path d="M37 -4.6 L45 -4.2 L45 4.2 L37 4.6 Z" fill="#ffffff" opacity="0.9"/>
+    </g></g>
+    <path d="M0.26 -7.5 L43.21 -6 A6 6 0 0 1 43.21 6 L0.26 7.5 A7.5 7.5 0 1 1 0.26 -7.5 Z" fill="#d9a97c"/>
+    <path d="M0.51 -8.99 L27.08 -7.49 A7.5 7.5 0 0 1 27.08 7.49 L0.51 8.99 A9 9 0 1 1 0.51 -8.99 Z" fill="#1e2a36"/>
+  </g></g>
+  <g id="far-foot" class="foot-far" transform="translate(212.98 232.93) rotate(15.14)">
+    <path d="M-10.5 1.6 C-13 1.6 -13.6 -1.5 -13.2 -4 C-12.8 -6.6 -11.4 -9 -9 -9.1 L-4 -9.2 C0 -9.3 2 -7 4.6 -5.2 C7.2 -3.4 9 -2.6 8.8 -0.6 C8.6 1.2 7 1.6 5 1.6 L-10.5 1.6 Z" fill="#1f2a30"/>
+    <path d="M-11 0.4 L7.5 0.4" stroke="#f4f1ea" stroke-width="1.3" stroke-linecap="round" opacity="0.85"/>
+  </g>
+  <g transform="translate(226 222)"><g id="far-crank" class="crank-far" transform="rotate(140)">
+    <path d="M0.07 -2.5 L17.06 -2 A2 2 0 0 1 17.06 2 L0.07 2.5 A2.5 2.5 0 1 1 0.07 -2.5 Z" fill="#6b7780"/>
+    <g transform="translate(17 0)"><g class="crank-far-pedal" transform="rotate(-140)">
+      <rect x="-7" y="-1.5" width="14" height="3" rx="1.5" fill="#1f2a30"/>
+    </g></g>
+  </g></g>
+  <g id="rear-wheel" transform="translate(168 218)">
+    <circle r="36.5" fill="none" stroke="#1f2a30" stroke-width="7"/>
+    <g class="spin">
+      <circle r="31" fill="none" stroke="#c9d1d6" stroke-width="2"/>
+      <g stroke="#aeb8be" stroke-width="1.2" stroke-linecap="round"><path d="M4 0 L30 0"/><path d="M3.46 2 L25.98 15"/><path d="M2 3.46 L15 25.98"/><path d="M0 4 L0 30"/><path d="M-2 3.46 L-15 25.98"/><path d="M-3.46 2 L-25.98 15"/><path d="M-4 0 L-30 0"/><path d="M-3.46 -2 L-25.98 -15"/><path d="M-2 -3.46 L-15 -25.98"/><path d="M0 -4 L0 -30"/><path d="M2 -3.46 L15 -25.98"/><path d="M3.46 -2 L25.98 -15"/></g>
+      <rect x="29" y="-2" width="5" height="4" rx="1" fill="#6b7780"/>
+      <circle r="4.5" fill="#6b7780"/>
+    </g>
+  </g>
+  <g id="front-wheel" transform="translate(298 218)">
+    <circle r="36.5" fill="none" stroke="#1f2a30" stroke-width="7"/>
+    <g class="spin">
+      <circle r="31" fill="none" stroke="#c9d1d6" stroke-width="2"/>
+      <g stroke="#aeb8be" stroke-width="1.2" stroke-linecap="round"><path d="M4 0 L30 0"/><path d="M3.46 2 L25.98 15"/><path d="M2 3.46 L15 25.98"/><path d="M0 4 L0 30"/><path d="M-2 3.46 L-15 25.98"/><path d="M-3.46 2 L-25.98 15"/><path d="M-4 0 L-30 0"/><path d="M-3.46 -2 L-25.98 -15"/><path d="M-2 -3.46 L-15 -25.98"/><path d="M0 -4 L0 -30"/><path d="M2 -3.46 L15 -25.98"/><path d="M3.46 -2 L25.98 -15"/></g>
+      <rect x="29" y="-2" width="5" height="4" rx="1" fill="#6b7780"/>
+      <circle r="4.5" fill="#6b7780"/>
+    </g>
+  </g>
+  <g id="frame">
+    <path d="M226 212 L168 213 M226 232 L168 223" stroke="#6b7780" stroke-width="1.6" fill="none"/>
+    <circle cx="226" cy="222" r="10" fill="none" stroke="#6b7780" stroke-width="3"/>
+    <path d="M168 218 L226 222" stroke="#b8323a" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M168 218 L211 164" stroke="#b8323a" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M226 222 L210 158" stroke="#e5484d" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <path d="M211 164 L284 150" stroke="#e5484d" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <path d="M226 222 L288 168" stroke="#e5484d" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <path d="M284 150 L288 168" stroke="#e5484d" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <path d="M288 168 Q294 196 298 218" stroke="#e5484d" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M284 150 L282 140 M282 140 Q276 130 272 141" stroke="#6b7780" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <path d="M210 158 L209 152" stroke="#6b7780" stroke-width="4" stroke-linecap="round"/>
+    <path d="M199 147 Q209 145 222 149 Q211 154 200 153 Q195 150 199 147 Z" fill="#1f2a30"/>
+  </g>
+  <g transform="translate(226 222)"><g id="near-crank" class="crank-near" transform="rotate(-40)">
+    <path d="M0.07 -2.5 L17.06 -2 A2 2 0 0 1 17.06 2 L0.07 2.5 A2.5 2.5 0 1 1 0.07 -2.5 Z" fill="#6b7780"/>
+    <g transform="translate(17 0)"><g class="crank-near-pedal" transform="rotate(40)">
+      <rect x="-7" y="-1.5" width="14" height="3" rx="1.5" fill="#1f2a30"/>
+    </g></g>
+  </g></g>
+  <g id="near-leg" transform="translate(214 146)"><g class="near-thigh" transform="rotate(24.45)">
+    <g transform="translate(43 0)"><g class="near-shin" transform="rotate(93.54)">
+      <path d="M0.18 -5.5 L46.13 -4 A4 4 0 0 1 46.13 4 L0.18 5.5 A5.5 5.5 0 1 1 0.18 -5.5 Z" fill="#f2c49b"/>
+      <path d="M37 -4.6 L45 -4.2 L45 4.2 L37 4.6 Z" fill="#ffffff" opacity="0.9"/>
+    </g></g>
+    <path d="M0.26 -7.5 L43.21 -6 A6 6 0 0 1 43.21 6 L0.26 7.5 A7.5 7.5 0 1 1 0.26 -7.5 Z" fill="#f2c49b"/>
+    <path d="M0.51 -8.99 L27.08 -7.49 A7.5 7.5 0 0 1 27.08 7.49 L0.51 8.99 A9 9 0 1 1 0.51 -8.99 Z" fill="#2b3a4a"/>
+  </g></g>
+  <g id="near-foot" class="foot-near" transform="translate(239.02 211.07) rotate(4.86)">
+    <path d="M-10.5 1.6 C-13 1.6 -13.6 -1.5 -13.2 -4 C-12.8 -6.6 -11.4 -9 -9 -9.1 L-4 -9.2 C0 -9.3 2 -7 4.6 -5.2 C7.2 -3.4 9 -2.6 8.8 -0.6 C8.6 1.2 7 1.6 5 1.6 L-10.5 1.6 Z" fill="#1f2a30"/>
+    <path d="M-11 0.4 L7.5 0.4" stroke="#f4f1ea" stroke-width="1.3" stroke-linecap="round" opacity="0.85"/>
+  </g>
+  <g id="rider-upper" transform="translate(214 146)"><g class="torso">
+  <g transform="rotate(-60.52)">
+    <path d="M1.13 -13.45 L13.04 -12.46 A12.5 12.5 0 0 1 13.04 12.46 L1.13 13.45 A13.5 13.5 0 1 1 1.13 -13.45 Z" fill="#2b3a4a"/>
+    <!-- The shirt-tail flutter was removed in review round 4: a detached dark flap read as a strange object. -->
+    <g transform="translate(12 0)"><path d="M0.32 -13 L41.13 -12 A12 12 0 0 1 41.13 12 L0.32 13 A13 13 0 1 1 0.32 -13 Z" fill="#2f6f9f"/></g>
+  </g>
+  <!-- Neck from the collar into the nape, drawn under the head; long enough that
+       the head's lagging nod never opens a gap (review round 1). -->
+  <path d="M0.06 -5 L20.5 -4.75 A4.75 4.75 0 0 1 20.5 4.75 L0.06 5 A5 5 0 1 1 0.06 -5 Z" transform="translate(27 -48) rotate(-49.4)" fill="#f2c49b"/>
+  <g transform="translate(31 -53)"><g id="head" class="head-lag" transform="rotate(-1.16)">
+    <g transform="translate(-3 -22)"><g class="flutter-hair" transform="rotate(-6)"><path d="M0 0 Q-8 -1 -11 5 Q-5 4 -2 8 Z" fill="#5b3a1e"/></g></g>
+    <path d="M-5 -13 C-9 -20.2 -2 -40 11 -40 C21 -40 27 -33 27.5 -25 C27.8 -20.2 29 -20 31.3 -17.4 Q32.2 -16.36 29.4 -15.1 C29.8 -13.9 29.6 -12.8 28.9 -12.1 C29.3 -11 28.8 -9.8 27.9 -9.4 C27.6 -6.6 25 -4.4 21.5 -4.2 C16 -3.6 11.5 -5 7.5 -7.4 C3 -6.8 -2.5 -8.5 -5 -13 Z" fill="#f2c49b"/>
+    <path d="M-6.5 -23 Q-7 -15 -3.5 -11 Q1 -16 2.5 -23 Z" fill="#5b3a1e"/>
+    <g transform="translate(6.5 -16)"><ellipse rx="3.4" ry="4.4" fill="#d9a97c"/><path d="M1.2 -2.2 Q-1.4 -1 -0.4 1.8" fill="none" stroke="#f2c49b" stroke-width="1" stroke-linecap="round"/></g>
+    <path d="M11.5 -26 L13.5 -13 Q14.7 -5.2 22 -4.2" fill="none" stroke="#d9860a" stroke-width="1.3" stroke-linecap="round"/>
+    <path d="M19.5 -23.4 Q22 -25 24.8 -23.6" fill="none" stroke="#5b3a1e" stroke-width="1.4" stroke-linecap="round"/>
+    <ellipse cx="22" cy="-18.8" rx="2" ry="2.5" fill="#1f2a30"/>
+    <circle cx="22.7" cy="-19.7" r="0.75" fill="#ffffff"/>
+    <circle cx="22" cy="-12" r="3" fill="#f19a8a" opacity="0.55"/>
+    <path d="M25.2 -10.6 Q26.8 -9.2 28.5 -10.4" fill="none" stroke="#1f2a30" stroke-width="1.3" stroke-linecap="round"/>
+    <path d="M-8 -22 C-9 -46 27 -50 31 -28 L33.5 -25.5 Q15 -31 -8 -22 Z" fill="#f59e0b"/>
+    <path d="M5 -41 Q13 -43.5 22 -38" fill="none" stroke="#d9860a" stroke-width="2.3" stroke-linecap="round"/>
+  </g></g>
+</g></g>
+  <g id="near-arm"><g class="arm-upper" transform="translate(240 100) rotate(79.69)">
+  <g transform="translate(30 0)"><g class="arm-fore" transform="rotate(-56.36)"><path d="M0.08 -4.5 L29.07 -4 A4 4 0 0 1 29.07 4 L0.08 4.5 A4.5 4.5 0 1 1 0.08 -4.5 Z" fill="#f2c49b"/><circle cx="29" cy="0" r="5.2" fill="#f2c49b"/></g></g>
+  <path d="M0.22 -6.5 L30.18 -5.5 A5.5 5.5 0 0 1 30.18 5.5 L0.22 6.5 A6.5 6.5 0 1 1 0.22 -6.5 Z" fill="#2f6f9f"/>
+</g></g>
+</g>
+</g>
+</svg>

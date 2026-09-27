@@ -222,7 +222,7 @@ function walk(dir, out = []) {
   }
   return out;
 }
-const markdown = [...walk(SKILL), join(ROOT, 'README.md'), join(ROOT, 'CHANGELOG.md'), ...walk(join(ROOT, 'docs'))]
+const markdown = [...walk(SKILL), join(ROOT, 'README.md'), join(ROOT, 'CHANGELOG.md'), ...walk(join(ROOT, 'docs')), ...walk(join(ROOT, 'examples'))]
   .filter((p) => p.endsWith('.md') && existsSync(p));
 for (const file of markdown) {
   const text = readFileSync(file, 'utf8').replace(/```[\s\S]*?```/g, '');
@@ -304,6 +304,12 @@ if (DEEP) {
 
   run('python unit tests', py, ['-m', 'unittest', 'discover', '-s', join(ROOT, 'tools', 'tests')], { shell: false });
   run('node tests', process.execPath, ['--test', 'tools/tests/*.test.mjs'], { shell: false });
+
+  // Examples are showcases: both audits must stay clean.
+  for (const svg of walk(join(ROOT, 'examples')).filter((f) => f.endsWith('.svg'))) {
+    run(`audit_svg.py ${rel(svg)}`, py, [audit, svg], { shell: false });
+    run(`path_audit.py ${rel(svg)}`, py, [join(scripts, 'path_audit.py'), svg, '--strict'], { shell: false });
+  }
 
   run('claude plugin validate (marketplace)', 'claude', ['plugin', 'validate', '.', '--strict']);
   run('claude plugin validate (plugin)', 'claude', ['plugin', 'validate', `plugins/${NAME}`, '--strict']);

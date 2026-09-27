@@ -6,6 +6,18 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- **`examples/`**: the bicycle case study (brief, generator, animated SVG, pedal-cycle frames, and the
+  four user review rounds next to their fixes), the Orbit logo reveal with its dark-background fix
+  and frame evidence, and the built-in gallery. `npm run check` audits every example SVG.
+
+### Fixed
+
+- The built-in examples pass the geometry audit: the lamp shade's straight side continues the curve's
+  tangent, Rough.js zero-length segments are dropped, and pressure-ink outline points closer than
+  2 px are merged.
+
 ## [1.2.0] - 2026-09-27
 
 ### Changed
