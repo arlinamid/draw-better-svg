@@ -33,7 +33,11 @@ correctness, and visual quality as separate requirements.
    and reference fits (tracing or reconstructing a raster source).
    Read [effects.md](references/effects.md) before adding filters, textures,
    gradients, or theming, and [motion.md](references/motion.md) for logo or other
-   SVG animation.
+   SVG animation. **Before animating a character or an animal, read its
+   [Character motion](references/motion.md#character-motion) section** and plan
+   the principles (solid drawing, timing, follow-through, secondary action, arcs,
+   appeal) before writing keyframes; a body that moves as one rigid piece is the
+   default failure.
 4. Read [ecosystem.md](references/ecosystem.md) only when choosing a library,
    comparing existing skills, or checking primary sources.
 
@@ -93,6 +97,7 @@ verified merely because XML parsing or an automated check passed.
 | Shadows, textures, grading, glass | Native filters from [effects.md](references/effects.md), clipped to the shape |
 | Fit to a raster reference | Complexity ladder + `compare_reference.mjs` overlay + `path_audit.py` |
 | Logo animation | CSS keyframes per [motion.md](references/motion.md); `capture_frames.mjs` for evidence |
+| Character animation | Joint groups, IK solved at sampled poses, the principles in [Character motion](references/motion.md#character-motion); review key frames with the user |
 | Preview | sharp/librsvg or resvg; use a browser for browser-specific behavior |
 | Delivery optimization | SVGO after visual approval |
 
