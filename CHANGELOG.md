@@ -26,6 +26,8 @@ All notable changes to this project are documented here. The format follows
 - **The review stage clips the drawing at its viewBox.** It used `overflow: visible`, so a looping
   background's off-canvas tiles spilled over the Notes panel. `motion.md` adds the matching rule
   for the artwork: clip scrolling scenes to the viewBox so inline embeds stay inside their frame.
+- **A looping drawing's clock wraps.** On a stage made only of endless animations the timeline and
+  every note's `t` stay within one loop (a note recorded 117034 ms instead of 5034 ms).
 - **Every round carries the checks.** `feedback.json` has a `checks` field, re-run on the file when
   the round is saved, and the summary ends with the open findings; an offline file includes the
   checks the page showed.

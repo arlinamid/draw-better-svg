@@ -123,7 +123,7 @@ decoration. Each maps to a concrete SVG technique:
 | Solid drawing | Joints stay attached in every frame: solve limbs by two-bone IK at sampled poses (24 per cycle is plenty) and measure the drift between samples |
 | Timing, slow in/out | Sample eased curves into keyframes (`(1 − cos 2πu) / 2`) or put a literal `cubic-bezier()` on the animation; keep every period a divisor of one loop |
 | Follow-through, overlapping action | Parts arrive at different times: the head lags the torso by 10–20 % of a cycle and counter-rotates; hair and clothing lag further |
-| Secondary action | Something the main action causes: wind in hair, a shirt tail, a bag strap. Small amplitude (≤ 10°), faster period than the main action |
+| Secondary action | Something the main action causes: wind in hair, a scarf, a bag strap. Small amplitude (≤ 10°), faster period than the main action. It must read as part of something already there: a small detached shape that flaps reads as a foreign object (a review flagged a shirt-tail flap as "what is that?") |
 | Squash and stretch | Body masses compress on the power beat (≤ 5 % for realistic, up to 20 % for cartoon); never deform what must stay rigid (a bicycle, a helmet) |
 | Anticipation | A counter-move before a big action (crouch before a jump); a steady loop such as pedalling needs none |
 | Arcs | Pivot limbs and heads about joints so points travel on arcs; avoid straight-line translation of organic parts |

@@ -88,8 +88,14 @@
     if (smil) { svg.setCurrentTime(0); svg.unpauseAnimations(); m.dur = Math.max(m.dur, 2000); }
     for (const a of m.anims) a.playbackRate = speed;
   }
-  // Parts end at different times; the longest one carries the clock.
-  const mNow = () => (m.anims.length ? Math.max(...m.anims.map((a) => a.currentTime ?? 0)) : smil ? svg.getCurrentTime() * 1000 : 0);
+  // Parts end at different times; the longest one carries the clock. A drawing
+  // made only of endless loops repeats every m.dur ms, so its clock wraps: a note
+  // then records 5034 ms, not 117034 ms after the page opened.
+  const looping = () => m.anims.length > 0 && m.anims.every((a) => a.effect?.getComputedTiming?.().iterations === Infinity);
+  const mNow = () => {
+    const raw = m.anims.length ? Math.max(...m.anims.map((a) => a.currentTime ?? 0)) : smil ? svg.getCurrentTime() * 1000 : 0;
+    return looping() && m.dur > 0 ? raw % m.dur : raw;
+  };
   const mRunning = () => m.anims.some((a) => a.playState === 'running') || (smil && !svg.animationsPaused());
 
   // ---------------------------------------------------------------- one timeline
